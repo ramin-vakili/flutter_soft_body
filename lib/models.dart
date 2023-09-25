@@ -12,7 +12,7 @@ abstract class MassPoint {
         velocity = Offset.zero,
         force = Offset.zero;
 
-  void updatePosition({required Offset force, required Size size}) {
+  void updatePosition({required Size size}) {
     velocity = force / mass;
     position += velocity;
 
