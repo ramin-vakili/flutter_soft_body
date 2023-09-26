@@ -40,8 +40,8 @@ abstract class EdgeBase {
 
 /// A connection between two nodes/particle, joint, which has elastic behaviour.
 class ElasticEdge implements EdgeBase {
-  double ks = 1.2;
-  double kd = 4;
+  double ks = 0.8;
+  double kd = 8;
 
   @override
   final MassPoint node1;
@@ -74,7 +74,6 @@ class ElasticEdge implements EdgeBase {
       // force vector
       double fx = ((x1 - x2) / r12d) * f;
       double fy = ((y1 - y2) / r12d) * f;
-      print(Offset(fx, fy));
 
       node1.force -= Offset(fx, fy);
       node2.force += Offset(fx, fy);

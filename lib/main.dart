@@ -80,15 +80,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
   }
 
-  static const double finalPressure = 20;
-  static const double gy = 10;
-  double pressure = 30;
+  static const double gy = 0.1;
 
   void _calculateForces(Size size, Duration elapsedTime) {
     // Gravity
     // for (final MassPoint massPoint in _massPoints) {
-    //   final double yForce =
-    //       (pressure - finalPressure >= 0) ? massPoint.mass * gy : 0;
+    //   final double yForce = massPoint.mass * gy;
     //   massPoint.force = Offset(0, yForce);
     //
     //   massPoint.updatePosition(size: size);
