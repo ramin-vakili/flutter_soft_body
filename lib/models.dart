@@ -12,14 +12,14 @@ abstract class MassPoint {
         velocity = Offset.zero,
         force = Offset.zero;
 
-  void updatePosition({required Size size}) {
-    velocity = force / mass;
+  void updatePosition({required Size size, required Duration elapsedTime}) {
+    velocity = force * (elapsedTime.inMilliseconds / 1000000) / mass;
     position += velocity;
 
-    position = Offset(
-      position.dx.clamp(0, size.width),
-      position.dy.clamp(0, size.height),
-    );
+    // position = Offset(
+    //   position.dx.clamp(0, size.width),
+    //   position.dy.clamp(0, size.height),
+    // );
   }
 
   set setPosition(Offset newPosition) {
@@ -79,7 +79,7 @@ class ElasticEdge implements EdgeBase {
       node2.force += Offset(fx, fy);
     }
 
-    node1.updatePosition(size: size);
-    node2.updatePosition(size: size);
+    node1.updatePosition(size: size, elapsedTime: elapsedTime);
+    node2.updatePosition(size: size, elapsedTime: elapsedTime);
   }
 }

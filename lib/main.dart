@@ -80,15 +80,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
   }
 
-  static const double gy = 1.1;
+  static const double gy = 0.9;
 
   void _calculateForces(Size size, Duration elapsedTime) {
     // Gravity
     // for (final MassPoint massPoint in _massPoints) {
-    //   final double yForce = massPoint.mass * gy;
+    //   final double yForce = gy * massPoint.mass;
     //   massPoint.force = Offset(0, yForce);
     //
-    //   massPoint.updatePosition(size: size);
+    //   massPoint.updatePosition(size: size, elapsedTime: elapsedTime);
     // }
 
     // // Create force between each pair of nodes
@@ -112,9 +112,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     for (final ElasticEdge edge2 in _springs) {
       edge2.update(elapsedTime, size);
 
-      edge2.node1.updatePosition(size: size);
-      edge2.node2.updatePosition(size: size);
+      edge2.node1.updatePosition(size: size, elapsedTime: elapsedTime);
+      edge2.node2.updatePosition(size: size, elapsedTime: elapsedTime);
     }
+
+    // for (final point in _massPoints) {
+    //   if (point.position.dy > size.height) {
+    //     final distance = point.position.dy - size.height;
+    //
+    //     point.force -= Offset(0, distance * 10);
+    //     point.updatePosition(size: size);
+    //   }
+    // }
   }
 
   @override
