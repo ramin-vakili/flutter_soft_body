@@ -4,11 +4,11 @@ import 'dart:ui';
 import 'models.dart';
 
 /// Generates some random on random positions inside the [size] area.
-List<Node> generateRandomNodes(Size size, {int numberOfNodes = 10}) {
-  final List<Node> nodes = <Node>[];
+List<MassPoint> generateRandomNodes(Size size, {int numberOfNodes = 10}) {
+  final List<MassPoint> nodes = <MassPoint>[];
 
   for (int i = 0; i < numberOfNodes; i++) {
-    nodes.add(Node(
+    nodes.add(GooBall(
       _getRandomNodeSize(),
       initialPosition: getRandomPositionInCanvas(size),
     ));
@@ -18,16 +18,15 @@ List<Node> generateRandomNodes(Size size, {int numberOfNodes = 10}) {
 }
 
 /// Generates some random edges between random node pairs in [nodes] list.
-List<Edge> generateRandomEdgesForNodes(List<Node> nodes) {
-  final List<Edge> edges = <Edge>[];
+List<EdgeBase> generateRandomEdgesForNodes(List<MassPoint> nodes) {
+  final List<EdgeBase> edges = <EdgeBase>[];
 
   for (int i = 0; i < 20; i++) {
     final (int, int) randomPairs = getRandomEdgePairs(nodes);
 
-    edges.add(Edge(
-      nodes[randomPairs.$1],
-      nodes[randomPairs.$2],
-      Random().nextInt(20).toDouble() + 10,
+    edges.add(ElasticEdge(
+      node1: nodes[randomPairs.$1],
+      node2: nodes[randomPairs.$2],
     ));
   }
 
@@ -44,7 +43,7 @@ double _getRandomNodeSize() => Random().nextInt(5) + 5.0;
 
 /// Generates two int numbers in the range of [nodes] length which in a way
 /// that i != j.
-(int, int) getRandomEdgePairs(List<Node> nodes) {
+(int, int) getRandomEdgePairs(List<MassPoint> nodes) {
   int i = 0, j = 0;
   do {
     final Random random = Random();

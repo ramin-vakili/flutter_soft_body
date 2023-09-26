@@ -27,35 +27,9 @@ abstract class MassPoint {
   }
 }
 
-/// A connection between two nodes/particle, joint, which has elastic behaviour.
-class ElasticEdge implements EdgeBase {
-  double ks = 0.5;
-  Offset l0 = const Offset(10, 10);
-  Offset kd = const Offset(5, 5);
-
-  final double length;
-
-  late Offset normalVector;
-
-  @override
-  final MassPoint node1;
-
-  @override
-  final MassPoint node2;
-
-  ElasticEdge({required this.node1, required this.node2, required this.length});
-
-  void update(Duration elapsedTime, Size size) {}
-}
-
 /// A Goo ball.
 class GooBall extends MassPoint {
   GooBall(super.mass, {super.initialPosition});
-}
-
-/// A node of the graph.
-class Node extends MassPoint {
-  Node(super.mass, {super.initialPosition});
 }
 
 abstract class EdgeBase {
@@ -64,26 +38,49 @@ abstract class EdgeBase {
   MassPoint get node2;
 }
 
-/// The edge in the graph which connects two nodes.
-class Edge implements EdgeBase {
-  @override
-  final Node node1;
+/// A connection between two nodes/particle, joint, which has elastic behaviour.
+class ElasticEdge implements EdgeBase {
+  double ks = 1.2;
+  double kd = 4;
 
   @override
-  final Node node2;
+  final MassPoint node1;
 
-  /// The length of this edge.
-  final double distance;
+  @override
+  final MassPoint node2;
 
-  Edge(this.node1, this.node2, this.distance);
-}
+  final double length = 60;
 
-/// A building consists of goo balls stick together in a graph shape structure.
-///
-/// *-----*
-///  \   / \
-///   \ /   \
-///    *-----*
-class GooStructure extends MassPoint {
-  GooStructure(super.mass, {super.initialPosition});
+  ElasticEdge({required this.node1, required this.node2});
+
+  void update(Duration elapsedTime, Size size) {
+    double x1 = node1.position.dx;
+    double x2 = node2.position.dx;
+    double y1 = node1.position.dy;
+    double y2 = node2.position.dy;
+
+    // calculate sqr(distance)
+    // double r12d = sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+    double r12d = (node1.position - node2.position).distance;
+
+    if (r12d > 0) {
+      // get velocities of start & end points
+      double vx12 = node1.velocity.dx - node2.velocity.dx;
+      double vy12 = node1.velocity.dy - node2.velocity.dy;
+      // calculate force value
+      double f = (r12d - length) * ks +
+          (vx12 * (x1 - x2) + vy12 * (y1 - y2)) * kd / r12d;
+
+      // force vector
+      double fx = ((x1 - x2) / r12d) * f;
+      double fy = ((y1 - y2) / r12d) * f;
+      print(Offset(fx, fy));
+
+      node1.force -= Offset(fx, fy);
+      node2.force += Offset(fx, fy);
+    }
+
+    node1.updatePosition(size: size);
+    node2.updatePosition(size: size);
+  }
 }

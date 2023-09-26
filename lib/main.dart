@@ -86,13 +86,19 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   void _calculateForces(Size size, Duration elapsedTime) {
     // Gravity
-    for (final MassPoint massPoint in _massPoints) {
-      final double yForce =
-          (pressure - finalPressure >= 0) ? massPoint.mass * gy : 0;
-      massPoint.force = Offset(0, yForce);
+    // for (final MassPoint massPoint in _massPoints) {
+    //   final double yForce =
+    //       (pressure - finalPressure >= 0) ? massPoint.mass * gy : 0;
+    //   massPoint.force = Offset(0, yForce);
+    //
+    //   massPoint.updatePosition(size: size);
+    // }
 
-      print(yForce);
-      massPoint.updatePosition(size: size);
+    for (final ElasticEdge edge2 in _springs) {
+      edge2.update(elapsedTime, size);
+
+      edge2.node1.updatePosition(size: size);
+      edge2.node2.updatePosition(size: size);
     }
   }
 
@@ -177,9 +183,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
     _massPoints.addAll(<MassPoint>[goo1, goo2, goo3]);
     _springs.addAll([
-      ElasticEdge(node1: goo1, node2: goo2, length: 60),
-      ElasticEdge(node1: goo2, node2: goo3, length: 60),
-      ElasticEdge(node1: goo3, node2: goo1, length: 60),
+      ElasticEdge(node1: goo1, node2: goo2),
+      ElasticEdge(node1: goo2, node2: goo3),
+      ElasticEdge(node1: goo3, node2: goo1),
     ]);
   }
 }

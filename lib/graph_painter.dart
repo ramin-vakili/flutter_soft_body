@@ -5,8 +5,10 @@ import 'models.dart';
 /// The [CustomPainter] which paints the graph on the canvas.
 class GraphPainter extends CustomPainter {
   /// Initializes the CustomPainter to paint the graph on the canvas.
-  GraphPainter({required this.nodes, required this.edges})
-      : _nodePaint = Paint()
+  GraphPainter({
+    required this.nodes,
+    required this.edges,
+  })  : _nodePaint = Paint()
           ..color = Colors.blueAccent
           ..strokeWidth = 2,
         _edgePaint = Paint()
