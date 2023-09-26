@@ -80,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
   }
 
-  static const double gy = 0.1;
+  static const double gy = 1.1;
 
   void _calculateForces(Size size, Duration elapsedTime) {
     // Gravity
@@ -89,6 +89,24 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     //   massPoint.force = Offset(0, yForce);
     //
     //   massPoint.updatePosition(size: size);
+    // }
+
+    // // Create force between each pair of nodes
+    // for (int i = 0; i < _massPoints.length; i++) {
+    //   for (int j = i + 1; j < _massPoints.length; j++) {
+    //     final MassPoint node1 = _massPoints[i];
+    //     final MassPoint node2 = _massPoints[j];
+    //     final direction = node2.position - node1.position;
+    //
+    //     final Offset forceBetweenTwoNodes =
+    //         direction / direction.distanceSquared * 200;
+    //
+    //     node1.force -= forceBetweenTwoNodes;
+    //     node2.force += forceBetweenTwoNodes;
+    //
+    //     node1.updatePosition(size: _graphCanvasSize!);
+    //     node2.updatePosition(size: _graphCanvasSize!);
+    //   }
     // }
 
     for (final ElasticEdge edge2 in _springs) {
@@ -165,24 +183,65 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   void _createRandomGraph(Size canvasSize) {
-    final goo1 = GooBall(
-      10,
-      initialPosition: getRandomPositionInCanvas(_graphCanvasSize!),
-    );
-    final goo2 = GooBall(
-      10,
-      initialPosition: getRandomPositionInCanvas(_graphCanvasSize!),
-    );
-    final goo3 = GooBall(
-      10,
-      initialPosition: getRandomPositionInCanvas(_graphCanvasSize!),
-    );
+    final goo1 = GooBall(30, initialPosition: const Offset(4, 5));
+    final goo2 = GooBall(30, initialPosition: const Offset(60, 0));
+    final goo3 = GooBall(30, initialPosition: const Offset(120, 10));
+    final goo4 = GooBall(30, initialPosition: const Offset(10, 70));
+    final goo5 = GooBall(30, initialPosition: const Offset(65, 69));
+    final goo6 = GooBall(30, initialPosition: const Offset(132, 76));
+    final goo7 = GooBall(30, initialPosition: const Offset(5, 140));
+    final goo8 = GooBall(30, initialPosition: const Offset(55, 130));
+    final goo9 = GooBall(30, initialPosition: const Offset(100, 120));
 
-    _massPoints.addAll(<MassPoint>[goo1, goo2, goo3]);
+    _massPoints.addAll(<MassPoint>[
+      goo1,
+      goo2,
+      goo3,
+      // goo4,
+      // goo5,
+      // goo6,
+      // goo7,
+      // goo8,
+      // goo9,
+    ]);
+
     _springs.addAll([
       ElasticEdge(node1: goo1, node2: goo2),
       ElasticEdge(node1: goo2, node2: goo3),
-      ElasticEdge(node1: goo3, node2: goo1),
+      ElasticEdge(node1: goo1, node2: goo3),
     ]);
+
+    // _springs.addAll([
+    //   ElasticEdge(node1: goo1, node2: goo2),
+    //   ElasticEdge(node1: goo1, node2: goo4),
+    //   ElasticEdge(node1: goo1, node2: goo5),
+    //   //
+    //   ElasticEdge(node1: goo2, node2: goo3),
+    //   ElasticEdge(node1: goo2, node2: goo4),
+    //   ElasticEdge(node1: goo2, node2: goo5),
+    //   ElasticEdge(node1: goo2, node2: goo6),
+    //   //
+    //   ElasticEdge(node1: goo3, node2: goo5),
+    //   ElasticEdge(node1: goo3, node2: goo6),
+    //   //
+    //   ElasticEdge(node1: goo4, node2: goo5),
+    //   ElasticEdge(node1: goo4, node2: goo7),
+    //   ElasticEdge(node1: goo4, node2: goo8),
+    //   //
+    //   ElasticEdge(node1: goo5, node2: goo7),
+    //   ElasticEdge(node1: goo5, node2: goo8),
+    //   //
+    //   ElasticEdge(node1: goo7, node2: goo8),
+    //   //
+    //   ElasticEdge(node1: goo5, node2: goo6),
+    //   ElasticEdge(node1: goo5, node2: goo7),
+    //   ElasticEdge(node1: goo5, node2: goo8),
+    //   ElasticEdge(node1: goo5, node2: goo9),
+    //   //
+    //   ElasticEdge(node1: goo6, node2: goo8),
+    //   ElasticEdge(node1: goo6, node2: goo9),
+    //   //
+    //   ElasticEdge(node1: goo8, node2: goo9),
+    // ]);
   }
 }
