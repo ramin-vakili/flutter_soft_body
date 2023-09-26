@@ -205,52 +205,52 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _massPoints.addAll(<MassPoint>[
       goo1,
       goo2,
-      goo3,
-      // goo4,
-      // goo5,
+      // goo3,
+      goo4,
+      goo5,
       // goo6,
       // goo7,
       // goo8,
       // goo9,
     ]);
 
-    _springs.addAll([
-      ElasticEdge(node1: goo1, node2: goo2),
-      ElasticEdge(node1: goo2, node2: goo3),
-      ElasticEdge(node1: goo1, node2: goo3),
-    ]);
-
     // _springs.addAll([
     //   ElasticEdge(node1: goo1, node2: goo2),
-    //   ElasticEdge(node1: goo1, node2: goo4),
-    //   ElasticEdge(node1: goo1, node2: goo5),
-    //   //
     //   ElasticEdge(node1: goo2, node2: goo3),
-    //   ElasticEdge(node1: goo2, node2: goo4),
-    //   ElasticEdge(node1: goo2, node2: goo5),
-    //   ElasticEdge(node1: goo2, node2: goo6),
-    //   //
-    //   ElasticEdge(node1: goo3, node2: goo5),
-    //   ElasticEdge(node1: goo3, node2: goo6),
-    //   //
-    //   ElasticEdge(node1: goo4, node2: goo5),
-    //   ElasticEdge(node1: goo4, node2: goo7),
-    //   ElasticEdge(node1: goo4, node2: goo8),
-    //   //
-    //   ElasticEdge(node1: goo5, node2: goo7),
-    //   ElasticEdge(node1: goo5, node2: goo8),
-    //   //
-    //   ElasticEdge(node1: goo7, node2: goo8),
-    //   //
-    //   ElasticEdge(node1: goo5, node2: goo6),
-    //   ElasticEdge(node1: goo5, node2: goo7),
-    //   ElasticEdge(node1: goo5, node2: goo8),
-    //   ElasticEdge(node1: goo5, node2: goo9),
-    //   //
-    //   ElasticEdge(node1: goo6, node2: goo8),
-    //   ElasticEdge(node1: goo6, node2: goo9),
-    //   //
-    //   ElasticEdge(node1: goo8, node2: goo9),
+    //   ElasticEdge(node1: goo1, node2: goo3),
     // ]);
+
+    _springs.addAll([
+      ElasticEdge(node1: goo1, node2: goo2),
+      ElasticEdge(node1: goo1, node2: goo4),
+      ElasticEdge(node1: goo1, node2: goo5),
+      //
+      // ElasticEdge(node1: goo2, node2: goo3),
+      // ElasticEdge(node1: goo2, node2: goo4),
+      ElasticEdge(node1: goo2, node2: goo5),
+      // ElasticEdge(node1: goo2, node2: goo6),
+      //
+      // ElasticEdge(node1: goo3, node2: goo5),
+      // ElasticEdge(node1: goo3, node2: goo6),
+      //
+      ElasticEdge(node1: goo4, node2: goo5),
+      // ElasticEdge(node1: goo4, node2: goo7),
+      // ElasticEdge(node1: goo4, node2: goo8),
+      //
+      // ElasticEdge(node1: goo5, node2: goo7),
+      // ElasticEdge(node1: goo5, node2: goo8),
+      //
+      // ElasticEdge(node1: goo7, node2: goo8),
+      //
+      // ElasticEdge(node1: goo5, node2: goo6),
+      // ElasticEdge(node1: goo5, node2: goo7),
+      // ElasticEdge(node1: goo5, node2: goo8),
+      // ElasticEdge(node1: goo5, node2: goo9),
+      //
+      // ElasticEdge(node1: goo6, node2: goo8),
+      // ElasticEdge(node1: goo6, node2: goo9),
+      //
+      // ElasticEdge(node1: goo8, node2: goo9),
+    ]);
   }
 }
