@@ -31,7 +31,7 @@ abstract class EdgeBase {
 
 /// A connection between two nodes/particle, joint, which has elastic behaviour.
 class ElasticEdge implements EdgeBase {
-  double ks = 50;
+  double ks = 90;
   double kd = 700;
 
   @override

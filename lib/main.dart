@@ -86,12 +86,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   static const double gy = 9.8;
 
   void _calculateForces(Size size, Duration elapsedTime) {
-    for (final MassPoint point in _points) {
-      point.force = Offset.zero;
-    }
-
     // Gravity
     for (final MassPoint point in _points) {
+      point.force = Offset.zero;
       final double yForce = gy * point.mass;
       point.force += Offset(0, yForce);
     }
