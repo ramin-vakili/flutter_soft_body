@@ -62,6 +62,29 @@ class RectangleCollider {
 
     return false;
   }
+
+  static Offset findIntersectionPoint(
+      Offset point, Offset lineStart, Offset lineEnd) {
+    double dxLine = lineEnd.x - lineStart.x;
+    double dyLine = lineEnd.y - lineStart.y;
+
+    // Calculate the vector from line's start point to point
+    double dxVector = point.x - lineStart.x;
+    double dyVector = point.y - lineStart.y;
+
+    // Calculate the projection of vector AP onto vector B
+    double t = (dxVector * dxLine + dyVector * dyLine) /
+        (dxLine * dxLine + dyLine * dyLine);
+
+    // Ensure the parameter t is within the bounds of the line segment
+    t = t.clamp(0.0, 1.0);
+
+    // Calculate the closest point on line
+    double xClosest = lineStart.x + t * dxLine;
+    double yClosest = lineStart.y + t * dyLine;
+
+    return Offset(xClosest, yClosest);
+  }
 }
 
 extension OffsetExtension on Offset {

@@ -193,7 +193,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   },
                   child: Stack(
                     children: [
-                      CustomPaint(painter: ColliderPainter([_collider])),
+                      CustomPaint(
+                        painter: ColliderPainter([_collider]),
+                      ),
                       CustomPaint(
                         painter: GraphPainter(
                           nodes: _points,
