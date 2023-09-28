@@ -8,9 +8,7 @@ abstract class MassPoint {
 
   final double mass;
 
-  final int id;
-
-  MassPoint(this.mass, {Offset? initialPosition, this.radius = 10, this.id = 10})
+  MassPoint(this.mass, {Offset? initialPosition, this.radius = 10})
       : position = initialPosition ?? Offset.zero,
         velocity = Offset.zero,
         force = Offset.zero;
@@ -22,7 +20,7 @@ abstract class MassPoint {
 
 /// A Goo ball.
 class GooBall extends MassPoint {
-  GooBall(super.mass, {super.initialPosition, super.id});
+  GooBall(super.mass, {super.initialPosition});
 }
 
 abstract class EdgeBase {
@@ -33,8 +31,8 @@ abstract class EdgeBase {
 
 /// A connection between two nodes/particle, joint, which has elastic behaviour.
 class ElasticEdge implements EdgeBase {
-  double ks = 130;
-  double kd = 810;
+  double ks = 200;
+  double kd = 1200;
 
   @override
   final MassPoint node1;

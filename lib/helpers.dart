@@ -65,7 +65,7 @@ double _getRandomNodeSize() => Random().nextInt(5) + 5.0;
   final goo5 = GooBall(30, initialPosition: const Offset(65, 69));
   final goo6 = GooBall(30, initialPosition: const Offset(132, 76));
   final goo7 = GooBall(30, initialPosition: const Offset(5, 140));
-  final goo8 = GooBall(30, initialPosition: const Offset(55, 130), id: 12);
+  final goo8 = GooBall(30, initialPosition: const Offset(55, 130));
   final goo9 = GooBall(30, initialPosition: const Offset(100, 120));
 
   points.addAll(<MassPoint>[
