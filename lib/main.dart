@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   MassPoint? _selectedNode;
 
-  final List<MassPoint> _massPoints = <MassPoint>[];
+  final List<MassPoint> _points = <MassPoint>[];
   final List<ElasticEdge> _springs = <ElasticEdge>[];
 
   @override
@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       if (renderBox != null) {
         _graphCanvasSize = renderBox.size;
         final graph = createRandomGraph(_graphCanvasSize!);
-        _massPoints.addAll(graph.$1);
+        _points.addAll(graph.$1);
         _springs.addAll(graph.$2);
 
         setState(() {});
@@ -94,6 +94,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     //   massPoint.updatePosition(size: size, elapsedTime: elapsedTime);
     // }
 
+    for (final MassPoint point in _points) {
+      point.force = Offset.zero;
+    }
 
     for (final ElasticEdge edge2 in _springs) {
       edge2.update(elapsedTime, size);
@@ -124,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       details.localPosition.dy,
                     );
 
-                    for (final MassPoint node in _massPoints) {
+                    for (final MassPoint node in _points) {
                       final Rect nodeRect = Rect.fromCenter(
                         center: node.position,
                         width: node.mass,
@@ -157,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   },
                   child: CustomPaint(
                     painter: GraphPainter(
-                      nodes: _massPoints,
+                      nodes: _points,
                       edges: _springs,
                     ),
                   ),
