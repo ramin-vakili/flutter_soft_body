@@ -63,14 +63,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   void _setupTicker() {
     createTicker((elapsed) {
       if (_graphCanvasSize != null) {
-        Duration deltaTime = Duration.zero;
+        Duration? deltaTime;
 
         if (_latestElapsedTime != null) {
           deltaTime = elapsed - _latestElapsedTime!;
         }
-       _latestElapsedTime = elapsed;
+        _latestElapsedTime = elapsed;
 
-        _calculateForces(_graphCanvasSize!, deltaTime);
+        if (deltaTime != null) {
+          _calculateForces(_graphCanvasSize!, deltaTime);
+        }
       }
       setState(() {});
     }).start();
@@ -94,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   static const double gy = 9.8;
 
-  void _calculateForces(Size size, Duration elapsedTime) {
+  void _calculateForces(Size size, Duration deltaTime) {
     // Gravity
     for (final MassPoint point in _points) {
       point.force = Offset.zero;
@@ -102,30 +104,30 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       point.force += Offset(0, yForce);
     }
 
-    for (final ElasticEdge edge2 in _springs) {
-      edge2.update(elapsedTime, size);
+    for (final ElasticEdge edge in _springs) {
+      edge.update(deltaTime, size);
     }
 
     for (final MassPoint point in _points) {
-      final double deltaTime = (elapsedTime.inMilliseconds/ 10000);
+      final double adjustedDeltaTime = (deltaTime.inMilliseconds / 10000);
 
-      final dryVelocity = point.velocity + point.force * deltaTime / point.mass;
+      final dryVelocity =
+          point.velocity + point.force * adjustedDeltaTime / point.mass;
 
       if ((point.position + dryVelocity).dy + point.radius > size.height) {
-
         final Offset collisionImpulse = -dryVelocity * point.mass;
-        final Offset collisionForce = collisionImpulse / deltaTime;
+        final Offset collisionForce = collisionImpulse / adjustedDeltaTime;
 
         point.force += collisionForce;
 
-        point.velocity += point.force * deltaTime / point.mass;
+        point.velocity += point.force * adjustedDeltaTime / point.mass;
 
         final double x = point.position.dx + point.velocity.dx;
         final double y = size.height - point.radius;
 
         point.position = Offset(x, y);
       } else {
-        point.velocity += point.force * deltaTime / point.mass;
+        point.velocity += point.force * adjustedDeltaTime / point.mass;
         point.position += point.velocity;
       }
     }
