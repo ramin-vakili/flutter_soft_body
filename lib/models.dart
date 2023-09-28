@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 abstract class MassPoint {
   Offset position;
@@ -15,11 +15,6 @@ abstract class MassPoint {
   void updatePosition({required Size size, required Duration elapsedTime}) {
     velocity = force * (elapsedTime.inMilliseconds / 1000000) / mass;
     position += velocity;
-
-    // position = Offset(
-    //   position.dx.clamp(0, size.width),
-    //   position.dy.clamp(0, size.height),
-    // );
   }
 
   set setPosition(Offset newPosition) {
@@ -60,26 +55,23 @@ class ElasticEdge implements EdgeBase {
     double y2 = node2.position.dy;
 
     // calculate sqr(distance)
-    // double r12d = sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-    double r12d = (node1.position - node2.position).distance;
+    double distanceSquared = (node1.position - node2.position).distance;
 
-    if (r12d > 0) {
+    if (distanceSquared > 0) {
       // get velocities of start & end points
       double vx12 = node1.velocity.dx - node2.velocity.dx;
       double vy12 = node1.velocity.dy - node2.velocity.dy;
+
       // calculate force value
-      double f = (r12d - length) * ks +
-          (vx12 * (x1 - x2) + vy12 * (y1 - y2)) * kd / r12d;
+      double f = (distanceSquared - length) * ks +
+          (vx12 * (x1 - x2) + vy12 * (y1 - y2)) * kd / distanceSquared;
 
       // force vector
-      double fx = ((x1 - x2) / r12d) * f;
-      double fy = ((y1 - y2) / r12d) * f;
+      double fx = ((x1 - x2) / distanceSquared) * f;
+      double fy = ((y1 - y2) / distanceSquared) * f;
 
       node1.force -= Offset(fx, fy);
       node2.force += Offset(fx, fy);
     }
-
-    node1.updatePosition(size: size, elapsedTime: elapsedTime);
-    node2.updatePosition(size: size, elapsedTime: elapsedTime);
   }
 }
