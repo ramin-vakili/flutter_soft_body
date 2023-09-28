@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:soft_body/models.dart';
 
 class ColliderPainter extends CustomPainter {
-  ColliderPainter(this.colliders);
+  ColliderPainter(this.colliders, this.collisionPoints);
 
   final List<RectangleCollider> colliders;
+
+  final List<Offset> collisionPoints;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -18,6 +20,10 @@ class ColliderPainter extends CustomPainter {
       for (final ColliderEdge edge in collider.edges) {
         canvas.drawLine(edge.point1, edge.point2, paint);
       }
+    }
+
+    for (final oint in collisionPoints) {
+      canvas.drawCircle(oint, 2, paint);
     }
   }
 

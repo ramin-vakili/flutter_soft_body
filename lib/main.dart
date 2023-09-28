@@ -135,9 +135,24 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         point.position += point.velocity;
       }
     }
+
+    detectCollision(_collider);
   }
 
-  void detectCollision(RectangleCollider collider, MassPoint point) {}
+  final List<Offset> intersectionPoints = [];
+
+  void detectCollision(RectangleCollider collider) {
+    intersectionPoints.clear();
+    for (final MassPoint point in _points) {
+      final collisionPoint = collider.getCollidingPoint(point.position);
+
+      if (collisionPoint != null &&
+          !collisionPoint.dx.isNaN &&
+          !collisionPoint.dy.isNaN) {
+        intersectionPoints.add(collisionPoint);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   child: Stack(
                     children: [
                       CustomPaint(
-                        painter: ColliderPainter([_collider]),
+                        painter: ColliderPainter([_collider], intersectionPoints),
                       ),
                       CustomPaint(
                         painter: GraphPainter(

@@ -85,6 +85,25 @@ class RectangleCollider {
 
     return Offset(xClosest, yClosest);
   }
+
+  /// Returns the colliding point if the [point] colliding this collider.
+  ///
+  /// Returns null if not colliding.
+  Offset? getCollidingPoint(Offset point) {
+    if (isPointInside(point)) {
+      final List<Offset> intersectionPoints = [];
+      for (final ColliderEdge edge in edges) {
+        intersectionPoints
+            .add(findIntersectionPoint(point, edge.point1, edge.point2));
+      }
+
+      return intersectionPoints.reduce((point1, point2) =>
+          (point - point1).distance < (point - point2).distance
+              ? point1
+              : point2);
+    }
+    return null;
+  }
 }
 
 extension OffsetExtension on Offset {
