@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soft_body/collider_painter.dart';
 
 import 'graph_painter.dart';
 import 'helpers.dart';
@@ -41,6 +42,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   final List<MassPoint> _points = <MassPoint>[];
   final List<ElasticEdge> _springs = <ElasticEdge>[];
+
+  final RectangleCollider _collider = RectangleCollider(const Offset(200, 500));
 
   @override
   void initState() {
@@ -185,11 +188,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   onPanEnd: (details) {
                     _selectedNode = null;
                   },
-                  child: CustomPaint(
-                    painter: GraphPainter(
-                      nodes: _points,
-                      edges: _springs,
-                    ),
+                  child: Stack(
+                    children: [
+                      CustomPaint(painter: ColliderPainter([_collider])),
+                      CustomPaint(
+                        painter: GraphPainter(
+                          nodes: _points,
+                          edges: _springs,
+                        ),
+                      ),
+                    ],
                   ),
                 )
               : const SizedBox.shrink(),

@@ -1,4 +1,20 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+
+class RectangleCollider {
+  final Offset center;
+  final double width;
+  final double height;
+  final double angle;
+
+  RectangleCollider(
+    this.center, {
+    this.width = 400,
+    this.height = 50,
+    this.angle = 20,
+  });
+}
 
 abstract class MassPoint {
   Offset position;
