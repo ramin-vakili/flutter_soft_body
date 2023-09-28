@@ -31,7 +31,7 @@ class GraphPainter extends CustomPainter {
     }
 
     for (final MassPoint node in nodes) {
-      canvas.drawCircle(node.position, 10, _nodePaint);
+      canvas.drawCircle(node.position, node.radius, _nodePaint);
     }
   }
 

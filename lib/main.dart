@@ -105,14 +105,19 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
       point.velocity += point.force * deltaTime / point.mass;
 
-      if ((point.position + point.velocity).dy > size.height) {
+      if ((point.position + point.velocity).dy + point.radius > size.height) {
         final Offset collisionImpulse = -point.velocity * point.mass;
         final Offset collisionForce = collisionImpulse / deltaTime;
         point.force += collisionForce;
         point.velocity += point.force * deltaTime / point.mass;
-      }
 
-      point.position += point.velocity;
+        final double x = point.position.dx + point.velocity.dx;
+        final double y = size.height - point.radius;
+
+        point.position = Offset(x, y);
+      } else {
+        point.position += point.velocity;
+      }
     }
   }
 

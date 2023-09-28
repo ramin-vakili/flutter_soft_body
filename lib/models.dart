@@ -4,10 +4,11 @@ abstract class MassPoint {
   Offset position;
   Offset velocity;
   Offset force;
+  final double radius;
 
   final double mass;
 
-  MassPoint(this.mass, {Offset? initialPosition})
+  MassPoint(this.mass, {Offset? initialPosition, this.radius = 10})
       : position = initialPosition ?? Offset.zero,
         velocity = Offset.zero,
         force = Offset.zero;
@@ -30,7 +31,7 @@ abstract class EdgeBase {
 
 /// A connection between two nodes/particle, joint, which has elastic behaviour.
 class ElasticEdge implements EdgeBase {
-  double ks = 35;
+  double ks = 50;
   double kd = 700;
 
   @override
