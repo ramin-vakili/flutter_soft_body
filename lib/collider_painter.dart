@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_body/models.dart';
 
@@ -18,29 +15,9 @@ class ColliderPainter extends CustomPainter {
       ..strokeWidth = 2.0;
 
     for (final RectangleCollider collider in colliders) {
-      canvas.save();
-
-      // Define the properties of the rotated rectangle
-      Rect rect = Rect.fromCenter(
-        center: collider.center,
-        width: collider.width,
-        height: collider.height,
-      );
-
-      double rotationAngle =
-          collider.angle * (pi / 180); // Convert degrees to radians
-
-      // Apply a rotation transform to the canvas
-      canvas.translate(
-        size.width / 2,
-        size.height / 2,
-      ); // Translate to the center
-
-      canvas.rotate(rotationAngle); // Rotate the canvas
-
-      canvas.drawRect(rect, paint);
-
-      canvas.restore();
+      for (final ColliderEdge edge in collider.edges) {
+        canvas.drawLine(edge.point1, edge.point2, paint);
+      }
     }
   }
 

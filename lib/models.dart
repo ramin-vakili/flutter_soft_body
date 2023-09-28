@@ -1,19 +1,22 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
-class RectangleCollider {
-  final Offset center;
-  final double width;
-  final double height;
-  final double angle;
+class ColliderEdge {
+  ColliderEdge(this.point1, this.point2);
 
-  RectangleCollider(
-    this.center, {
-    this.width = 400,
-    this.height = 50,
-    this.angle = 20,
-  });
+  final Offset point1;
+  final Offset point2;
+}
+
+class RectangleCollider {
+  RectangleCollider({required this.points, required this.edges});
+
+  final List<Offset> points;
+
+  final List<ColliderEdge> edges;
+
+  bool isPointInside(Offset point) {
+    return false;
+  }
 }
 
 abstract class MassPoint {

@@ -54,6 +54,29 @@ double _getRandomNodeSize() => Random().nextInt(5) + 5.0;
   return (i, j);
 }
 
+RectangleCollider createRandomCollider() {
+  const Offset topLeft = Offset(50, 300);
+  const Offset topRight = Offset(400, 400);
+  const Offset bottomLeft = Offset(30, 450);
+  const Offset bottomRight = Offset(400, 650);
+
+  final List<Offset> points = <Offset>[
+    topLeft,
+    topRight,
+    bottomLeft,
+    bottomRight
+  ];
+
+  final List<ColliderEdge> edges = <ColliderEdge>[
+    ColliderEdge(topLeft, topRight),
+    ColliderEdge(topLeft, bottomLeft),
+    ColliderEdge(bottomLeft, bottomRight),
+    ColliderEdge(topRight, bottomRight),
+  ];
+
+  return RectangleCollider(points: points, edges: edges);
+}
+
 (List<MassPoint>, List<ElasticEdge>) createRandomGraph(Size canvasSize) {
   final List<MassPoint> points = <MassPoint>[];
   final List<ElasticEdge> springs = <ElasticEdge>[];

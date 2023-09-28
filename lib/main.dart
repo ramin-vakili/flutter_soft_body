@@ -43,13 +43,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   final List<MassPoint> _points = <MassPoint>[];
   final List<ElasticEdge> _springs = <ElasticEdge>[];
 
-  final RectangleCollider _collider = RectangleCollider(const Offset(200, 500));
+  late final RectangleCollider _collider;
 
   @override
   void initState() {
     super.initState();
     createTicker((elapsed) {});
 
+    _collider = createRandomCollider();
     _resetGraph();
     _setupTicker();
   }
@@ -117,6 +118,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       final dryVelocity =
           point.velocity + point.force * adjustedDeltaTime / point.mass;
 
+
       if ((point.position + dryVelocity).dy + point.radius > size.height) {
         final Offset collisionImpulse = -dryVelocity * point.mass;
         final Offset collisionForce = collisionImpulse / adjustedDeltaTime;
@@ -135,6 +137,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       }
     }
   }
+
+  void detectCollision(RectangleCollider collider, MassPoint point) {}
 
   @override
   Widget build(BuildContext context) {
