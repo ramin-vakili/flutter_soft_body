@@ -118,7 +118,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       final dryVelocity =
           point.velocity + point.force * adjustedDeltaTime / point.mass;
 
-
       if ((point.position + dryVelocity).dy + point.radius > size.height) {
         final Offset collisionImpulse = -dryVelocity * point.mass;
         final Offset collisionForce = collisionImpulse / adjustedDeltaTime;

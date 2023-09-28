@@ -15,8 +15,59 @@ class RectangleCollider {
   final List<ColliderEdge> edges;
 
   bool isPointInside(Offset point) {
+    int numberOfIntersections = 0;
+    for (final ColliderEdge edge in edges) {
+      if (doLinesIntersect(
+        point,
+        Offset(point.dx, 100000),
+        edge.point1,
+        edge.point2,
+      )) {
+        numberOfIntersections++;
+      }
+    }
+
+    return numberOfIntersections.isOdd;
+  }
+
+  static bool doLinesIntersect(
+    Offset line1Start,
+    Offset line1End,
+    Offset line2Start,
+    Offset line2End,
+  ) {
+    Offset dir1 = Offset(line1End.x - line1Start.x, line1End.y - line1Start.y);
+    Offset dir2 = Offset(line2End.x - line2Start.x, line2End.y - line2Start.y);
+
+    // Calculate determinant to check if lines are parallel
+    double det = dir1.x * dir2.y - dir1.y * dir2.x;
+
+    // Check if lines are parallel (det == 0)
+    if (det == 0) {
+      return false;
+    }
+
+    // Calculate parameters for the parametric equations of the lines
+    double t1 = ((line2Start.x - line1Start.x) * dir2.y -
+            (line2Start.y - line1Start.y) * dir2.x) /
+        det;
+    double t2 = ((line2Start.x - line1Start.x) * dir1.y -
+            (line2Start.y - line1Start.y) * dir1.x) /
+        det;
+
+    // Check if the intersection point is within the line segments
+    if (t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1) {
+      return true; // Lines intersect within line segments
+    }
+
     return false;
   }
+}
+
+extension OffsetExtension on Offset {
+  double get x => dx;
+
+  double get y => dy;
 }
 
 abstract class MassPoint {
