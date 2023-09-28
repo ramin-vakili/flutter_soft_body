@@ -51,6 +51,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _setupTicker();
   }
 
+  Duration? _latestElapsedTime;
+
   @override
   void didUpdateWidget(covariant MyHomePage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -61,7 +63,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   void _setupTicker() {
     createTicker((elapsed) {
       if (_graphCanvasSize != null) {
-        _calculateForces(_graphCanvasSize!, elapsed);
+        Duration deltaTime = Duration.zero;
+
+        if (_latestElapsedTime != null) {
+          deltaTime = elapsed - _latestElapsedTime!;
+        }
+       _latestElapsedTime = elapsed;
+
+        _calculateForces(_graphCanvasSize!, deltaTime);
       }
       setState(() {});
     }).start();
@@ -98,14 +107,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     }
 
     for (final MassPoint point in _points) {
-      final double deltaTime = (elapsedTime.inMilliseconds / 1000000);
+      final double deltaTime = (elapsedTime.inMilliseconds/ 10000);
 
-      point.velocity += point.force * deltaTime / point.mass;
+      final dryVelocity = point.velocity + point.force * deltaTime / point.mass;
 
-      if ((point.position + point.velocity).dy + point.radius > size.height) {
-        final Offset collisionImpulse = -point.velocity * point.mass;
+      if ((point.position + dryVelocity).dy + point.radius > size.height) {
+
+        final Offset collisionImpulse = -dryVelocity * point.mass;
         final Offset collisionForce = collisionImpulse / deltaTime;
+
         point.force += collisionForce;
+
         point.velocity += point.force * deltaTime / point.mass;
 
         final double x = point.position.dx + point.velocity.dx;
@@ -113,6 +125,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
         point.position = Offset(x, y);
       } else {
+        point.velocity += point.force * deltaTime / point.mass;
         point.position += point.velocity;
       }
     }

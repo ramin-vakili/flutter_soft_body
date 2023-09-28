@@ -8,7 +8,9 @@ abstract class MassPoint {
 
   final double mass;
 
-  MassPoint(this.mass, {Offset? initialPosition, this.radius = 10})
+  final int id;
+
+  MassPoint(this.mass, {Offset? initialPosition, this.radius = 10, this.id = 10})
       : position = initialPosition ?? Offset.zero,
         velocity = Offset.zero,
         force = Offset.zero;
@@ -20,7 +22,7 @@ abstract class MassPoint {
 
 /// A Goo ball.
 class GooBall extends MassPoint {
-  GooBall(super.mass, {super.initialPosition});
+  GooBall(super.mass, {super.initialPosition, super.id});
 }
 
 abstract class EdgeBase {
@@ -31,8 +33,8 @@ abstract class EdgeBase {
 
 /// A connection between two nodes/particle, joint, which has elastic behaviour.
 class ElasticEdge implements EdgeBase {
-  double ks = 90;
-  double kd = 700;
+  double ks = 130;
+  double kd = 810;
 
   @override
   final MassPoint node1;
@@ -58,16 +60,21 @@ class ElasticEdge implements EdgeBase {
       double vx12 = node1.velocity.dx - node2.velocity.dx;
       double vy12 = node1.velocity.dy - node2.velocity.dy;
 
-      // calculate force value
-      double f = (distanceSquared - length) * ks +
+      final double stifnessForce = (distanceSquared - length) * ks;
+      final double dampingForce =
           (vx12 * (x1 - x2) + vy12 * (y1 - y2)) * kd / distanceSquared;
+
+      // calculate force value
+      double f = stifnessForce + dampingForce;
 
       // force vector
       double fx = ((x1 - x2) / distanceSquared) * f;
       double fy = ((y1 - y2) / distanceSquared) * f;
 
-      node1.force -= Offset(fx, fy);
-      node2.force += Offset(fx, fy);
+      Offset newForce = Offset(fx, fy);
+
+      node1.force -= newForce;
+      node2.force += newForce;
     }
   }
 }
