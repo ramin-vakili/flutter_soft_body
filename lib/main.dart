@@ -86,23 +86,33 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   static const double gy = 9.8;
 
   void _calculateForces(Size size, Duration elapsedTime) {
-    // Gravity
-    // for (final MassPoint massPoint in _massPoints) {
-    //   final double yForce = gy * massPoint.mass;
-    //   massPoint.force = Offset(0, yForce);
-    //
-    //   massPoint.updatePosition(size: size, elapsedTime: elapsedTime);
-    // }
-
     for (final MassPoint point in _points) {
       point.force = Offset.zero;
     }
 
+    // Gravity
+    for (final MassPoint point in _points) {
+      final double yForce = gy * point.mass;
+      point.force += Offset(0, yForce);
+    }
+
     for (final ElasticEdge edge2 in _springs) {
       edge2.update(elapsedTime, size);
+    }
 
-      edge2.node1.updatePosition(size: size, elapsedTime: elapsedTime);
-      edge2.node2.updatePosition(size: size, elapsedTime: elapsedTime);
+    for (final MassPoint point in _points) {
+      final double deltaTime = (elapsedTime.inMilliseconds / 1000000);
+
+      point.velocity += point.force * deltaTime / point.mass;
+
+      if ((point.position + point.velocity).dy > size.height) {
+        final Offset collisionImpulse = -point.velocity * point.mass;
+        final Offset collisionForce = collisionImpulse / deltaTime;
+        point.force += collisionForce;
+        point.velocity += point.force * deltaTime / point.mass;
+      }
+
+      point.position += point.velocity;
     }
   }
 

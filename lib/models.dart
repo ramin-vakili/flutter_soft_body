@@ -12,11 +12,6 @@ abstract class MassPoint {
         velocity = Offset.zero,
         force = Offset.zero;
 
-  void updatePosition({required Size size, required Duration elapsedTime}) {
-    velocity += force * (elapsedTime.inMilliseconds / 1000000) / mass;
-    position += velocity;
-  }
-
   set setPosition(Offset newPosition) {
     position = newPosition;
   }
