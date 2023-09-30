@@ -110,6 +110,8 @@ extension OffsetExtension on Offset {
   double get x => dx;
 
   double get y => dy;
+
+  Offset get normalized => this / distance;
 }
 
 abstract class MassPoint {

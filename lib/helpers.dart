@@ -55,9 +55,9 @@ double _getRandomNodeSize() => Random().nextInt(5) + 5.0;
 }
 
 RectangleCollider createRandomCollider() {
-  const Offset topLeft = Offset(50, 300);
+  const Offset topLeft = Offset(0, 300);
   const Offset topRight = Offset(400, 400);
-  const Offset bottomLeft = Offset(30, 450);
+  const Offset bottomLeft = Offset(0, 450);
   const Offset bottomRight = Offset(400, 650);
 
   final List<Offset> points = <Offset>[
@@ -81,15 +81,15 @@ RectangleCollider createRandomCollider() {
   final List<MassPoint> points = <MassPoint>[];
   final List<ElasticEdge> springs = <ElasticEdge>[];
 
-  final goo1 = GooBall(30, initialPosition: const Offset(4, 5));
-  final goo2 = GooBall(30, initialPosition: const Offset(60, 0));
-  final goo3 = GooBall(30, initialPosition: const Offset(120, 10));
-  final goo4 = GooBall(30, initialPosition: const Offset(10, 70));
-  final goo5 = GooBall(30, initialPosition: const Offset(65, 69));
-  final goo6 = GooBall(30, initialPosition: const Offset(132, 76));
-  final goo7 = GooBall(30, initialPosition: const Offset(5, 140));
-  final goo8 = GooBall(30, initialPosition: const Offset(55, 130));
-  final goo9 = GooBall(30, initialPosition: const Offset(100, 120));
+  final goo1 = GooBall(30, initialPosition: const Offset(24, 5));
+  final goo2 = GooBall(30, initialPosition: const Offset(80, 0));
+  final goo3 = GooBall(30, initialPosition: const Offset(140, 10));
+  final goo4 = GooBall(30, initialPosition: const Offset(30, 70));
+  final goo5 = GooBall(30, initialPosition: const Offset(85, 69));
+  final goo6 = GooBall(30, initialPosition: const Offset(152, 76));
+  final goo7 = GooBall(30, initialPosition: const Offset(25, 140));
+  final goo8 = GooBall(30, initialPosition: const Offset(75, 130));
+  final goo9 = GooBall(30, initialPosition: const Offset(120, 120));
 
   points.addAll(<MassPoint>[
     goo1,

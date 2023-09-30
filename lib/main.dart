@@ -118,38 +118,42 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       final dryVelocity =
           point.velocity + point.force * adjustedDeltaTime / point.mass;
 
-      if ((point.position + dryVelocity).dy + point.radius > size.height) {
-        final Offset collisionImpulse = -dryVelocity * point.mass;
+      final Offset? collisionPoint = _collider.getCollidingPoint(
+          point.position + dryVelocity);
+
+      if (collisionPoint != null) {
+        final Offset pushVectorNormalized =
+            (collisionPoint - point.position).normalized;
+
+        Offset newDryVelocity = point.velocity -
+            pushVectorNormalized *
+                2 *
+                (point.velocity.dx * pushVectorNormalized.dx +
+                    point.velocity.dy * pushVectorNormalized.dy);
+        // Offset newDryVelocity = point.velocity
+        //     .scale(pushVectorNormalized.x, pushVectorNormalized.y);
+
+        // final Offset collisionImpulse = -dryVelocity * point.mass;
+        final Offset collisionImpulse = newDryVelocity * point.mass;
         final Offset collisionForce = collisionImpulse / adjustedDeltaTime;
+
+        // Velocity vector after collision.
+        // final Offset rVelocityVector =  velocity - 2 (velocity . n) n
 
         point.force += collisionForce;
 
         point.velocity += point.force * adjustedDeltaTime / point.mass;
+        // point.position += point.velocity;
 
-        final double x = point.position.dx + point.velocity.dx;
-        final double y = size.height - point.radius;
+        point.position = collisionPoint + (pushVectorNormalized * point.radius);
 
-        point.position = Offset(x, y);
+        // final double x = point.position.dx + point.velocity.dx;
+        // final double y = size.height - point.radius;
+
+        // point.position = Offset(x, y);
       } else {
         point.velocity += point.force * adjustedDeltaTime / point.mass;
         point.position += point.velocity;
-      }
-    }
-
-    detectCollision(_collider);
-  }
-
-  final List<Offset> intersectionPoints = [];
-
-  void detectCollision(RectangleCollider collider) {
-    intersectionPoints.clear();
-    for (final MassPoint point in _points) {
-      final collisionPoint = collider.getCollidingPoint(point.position);
-
-      if (collisionPoint != null &&
-          !collisionPoint.dx.isNaN &&
-          !collisionPoint.dy.isNaN) {
-        intersectionPoints.add(collisionPoint);
       }
     }
   }
@@ -208,9 +212,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   },
                   child: Stack(
                     children: [
-                      CustomPaint(
-                        painter: ColliderPainter([_collider], intersectionPoints),
-                      ),
+                      CustomPaint(painter: ColliderPainter([_collider])),
                       CustomPaint(
                         painter: GraphPainter(
                           nodes: _points,
