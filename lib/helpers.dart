@@ -56,7 +56,7 @@ double _getRandomNodeSize() => Random().nextInt(5) + 5.0;
 
 RectangleCollider createRandomCollider() {
   const Offset topLeft = Offset(0, 300);
-  const Offset topRight = Offset(400, 300);
+  const Offset topRight = Offset(400, 430);
   const Offset bottomLeft = Offset(0, 450);
   const Offset bottomRight = Offset(400, 650);
 

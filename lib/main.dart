@@ -89,8 +89,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     }).start();
   }
 
-
-
   void _resetGraph() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final RenderBox? renderBox =
@@ -142,25 +140,29 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             pushVectorNormalized *
                 2 *
                 (point.velocity.dx * pushVectorNormalized.dx +
-                    point.velocity.dy * pushVectorNormalized.dy)) ;
+                    point.velocity.dy * pushVectorNormalized.dy));
         // Offset newDryVelocity = point.velocity
         //     .scale(pushVectorNormalized.x, pushVectorNormalized.y);
 
         // final Offset collisionImpulse = -dryVelocity * point.mass;
         final Offset collisionImpulse = newDryVelocity * point.mass;
-        final Offset collisionForce = collisionImpulse / adjustedDeltaTime * 0.3;
+        final Offset collisionForce =
+            collisionImpulse / adjustedDeltaTime * 0.3;
 
         // Velocity vector after collision.
         // final Offset rVelocityVector =  velocity - 2 (velocity . n) n
 
         point.force += collisionForce;
-        print('${point.force} $newDryVelocity ${collisionImpulse}, $collisionForce');
-
+        print(
+            '${point.force} $newDryVelocity ${collisionImpulse}, $collisionForce');
 
         point.velocity = point.force * adjustedDeltaTime / point.mass;
-        point.position += point.velocity;
+        // point.position += point.velocity;
         // print('${point.velocity}, ${point.force}');
 
+        point.position = collisionPoint! +
+            (pushVectorNormalized * (point.radius)) +
+            point.velocity;
         // point.position =
         //     collisionPoint! + (pushVectorNormalized * (point.radius));
 
@@ -229,9 +231,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   },
                   child: Stack(
                     children: [
-                      CustomPaint(
-                          painter:
-                              ColliderPainter([_collider])),
+                      CustomPaint(painter: ColliderPainter([_collider])),
                       CustomPaint(
                         painter: GraphPainter(
                           nodes: _points,
