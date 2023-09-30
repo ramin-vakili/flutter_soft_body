@@ -10,7 +10,8 @@ class GraphPainter extends CustomPainter {
     required this.edges,
   })  : _nodePaint = Paint()
           ..color = Colors.blueAccent
-          ..strokeWidth = 2,
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1,
         _edgePaint = Paint()
           ..color = Colors.deepOrange
           ..strokeWidth = 3;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soft_body/main.dart';
 
 class ColliderEdge {
   ColliderEdge(this.point1, this.point2);
@@ -86,21 +87,32 @@ class RectangleCollider {
     return Offset(xClosest, yClosest);
   }
 
-  /// Returns the colliding point if the [point] colliding this collider.
+  /// Returns the colliding point if the [ballCenter] colliding this collider.
   ///
   /// Returns null if not colliding.
-  Offset? getCollidingPoint(Offset point) {
-    if (isPointInside(point)) {
-      final List<Offset> intersectionPoints = [];
-      for (final ColliderEdge edge in edges) {
-        intersectionPoints
-            .add(findIntersectionPoint(point, edge.point1, edge.point2));
-      }
+  Offset? getCollidingPoint(Offset ballCenter, double ballRadius) {
+    for (final ColliderEdge edge in edges) {
+      final Offset endOfTheLineFromCenterOfBallToEdge =
+          findIntersectionPoint(ballCenter, edge.point1, edge.point2);
 
-      return intersectionPoints.reduce((point1, point2) =>
-          (point - point1).distance < (point - point2).distance
-              ? point1
-              : point2);
+      final Offset directionFromCenterToEdge =
+          endOfTheLineFromCenterOfBallToEdge - ballCenter;
+
+      final Offset hittingPoint =
+          ballCenter + directionFromCenterToEdge.normalized * ballRadius;
+
+      if (isPointInside(hittingPoint)) {
+        final List<Offset> intersectionPoints = [];
+        for (final ColliderEdge edge in edges) {
+          intersectionPoints
+              .add(findIntersectionPoint(hittingPoint, edge.point1, edge.point2));
+        }
+
+        return intersectionPoints.reduce((point1, point2) =>
+            (hittingPoint- point1).distance < (hittingPoint- point2).distance
+                ? point1
+                : point2);
+      }
     }
     return null;
   }
