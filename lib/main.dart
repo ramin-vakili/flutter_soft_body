@@ -25,9 +25,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-Offset? hitPosition;
-Offset? pushVector;
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -38,6 +35,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  static const double gy = 9.8;
+
   Size? _graphCanvasSize;
   final GlobalKey _canvasKey = GlobalKey();
 
@@ -79,10 +78,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
         if (deltaTime != null) {
           _calculateForces(_graphCanvasSize!, deltaTime);
-          hitPosition = _collider.getCollidingPoint(
-              _points.first.position, _points.first.radius);
-
-          // pushVector = (hitPosition! - _points.first.position);
         }
       }
       setState(() {});
@@ -105,10 +100,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
   }
 
-  static const double gy = 9.8;
-
-  Offset? collisionPoint;
-
   void _calculateForces(Size size, Duration deltaTime) {
     // Gravity
     for (final MassPoint point in _points) {
@@ -127,47 +118,33 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       final dryVelocity =
           point.velocity + point.force * adjustedDeltaTime / point.mass;
 
-      collisionPoint = _collider.getCollidingPoint(
+      final Offset? collisionPoint = _collider.getCollidingPoint(
         point.position + dryVelocity,
         point.radius,
       );
 
       if (collisionPoint != null) {
         final Offset pushVectorNormalized =
-            (point.position - collisionPoint!).normalized;
+            (point.position - collisionPoint).normalized;
 
         Offset newDryVelocity = (point.velocity -
             pushVectorNormalized *
                 2 *
                 (point.velocity.dx * pushVectorNormalized.dx +
                     point.velocity.dy * pushVectorNormalized.dy));
-        // Offset newDryVelocity = point.velocity
-        //     .scale(pushVectorNormalized.x, pushVectorNormalized.y);
 
         // final Offset collisionImpulse = -dryVelocity * point.mass;
         final Offset collisionImpulse = newDryVelocity * point.mass;
         final Offset collisionForce =
             collisionImpulse / adjustedDeltaTime * 0.3;
 
-        // Velocity vector after collision.
-        // final Offset rVelocityVector =  velocity - 2 (velocity . n) n
-
         point.force += collisionForce;
 
         point.velocity = point.force * adjustedDeltaTime / point.mass;
-        // point.position += point.velocity;
-        // print('${point.velocity}, ${point.force}');
 
-        point.position = collisionPoint! +
+        point.position = collisionPoint +
             (pushVectorNormalized * (point.radius)) +
             point.velocity;
-        // point.position =
-        //     collisionPoint! + (pushVectorNormalized * (point.radius));
-
-        // final double x = point.position.dx + point.velocity.dx;
-        // final double y = size.height - point.radius;
-
-        // point.position = Offset(x, y);
       } else {
         point.velocity += point.force * adjustedDeltaTime / point.mass;
         point.position += point.velocity;
