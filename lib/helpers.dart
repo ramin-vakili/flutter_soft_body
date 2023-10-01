@@ -164,7 +164,7 @@ List<RectangleCollider> createRandomColliders(Size size) {
   int row = 3,
   int column = 3,
   Offset position = Offset.zero,
-  double edgeLength = 50,
+  double edgeLength = 30,
 }) {
   final List<MassPoint> points = <MassPoint>[];
   final List<ElasticEdge> springs = <ElasticEdge>[];

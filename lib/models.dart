@@ -196,3 +196,15 @@ class ElasticEdge implements EdgeBase {
     }
   }
 }
+
+extension MassPointListExtension on List<MassPoint> {
+  String get positionsPrintString {
+    StringBuffer stringBuffer = StringBuffer();
+
+    for (final point in this) {
+      stringBuffer.write('(${point.position.dx.toStringAsFixed(0)}, ${point.position.dy.toStringAsFixed(0)}), ');
+    }
+
+    return stringBuffer.toString();
+  }
+}

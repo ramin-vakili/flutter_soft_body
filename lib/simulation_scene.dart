@@ -81,6 +81,9 @@ class _SimulationSceneState extends State<SimulationScene>
   }
 
   void _calculateForces(Size size, Duration deltaTime) {
+    print(_points.positionsPrintString);
+    print('##########################');
+
     // Gravity
     for (final MassPoint point in _points) {
       point.force = Offset.zero;
