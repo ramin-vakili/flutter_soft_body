@@ -103,12 +103,12 @@ class RectangleCollider {
       if (isPointInside(hittingPoint)) {
         final List<Offset> intersectionPoints = [];
         for (final ColliderEdge edge in edges) {
-          intersectionPoints
-              .add(findIntersectionPoint(hittingPoint, edge.point1, edge.point2));
+          intersectionPoints.add(
+              findIntersectionPoint(hittingPoint, edge.point1, edge.point2));
         }
 
         return intersectionPoints.reduce((point1, point2) =>
-            (hittingPoint- point1).distance < (hittingPoint- point2).distance
+            (hittingPoint - point1).distance < (hittingPoint - point2).distance
                 ? point1
                 : point2);
       }
@@ -133,7 +133,7 @@ class MassPoint {
 
   final double mass;
 
-  MassPoint(this.mass, {Offset? initialPosition, this.radius = 6})
+  MassPoint({this.mass = 30, Offset? initialPosition, this.radius = 6})
       : position = initialPosition ?? Offset.zero,
         velocity = Offset.zero,
         force = Offset.zero;
@@ -178,7 +178,8 @@ class ElasticEdge implements EdgeBase {
       double vx12 = node1.velocity.dx - node2.velocity.dx;
       double vy12 = node1.velocity.dy - node2.velocity.dy;
 
-      final double stifnessForce = (distanceSquared - length) * ks;
+      final double stifnessForce =
+          double.parse(((distanceSquared - length) * ks).toStringAsFixed(10));
       final double dampingForce =
           (vx12 * (x1 - x2) + vy12 * (y1 - y2)) * kd / distanceSquared;
 
@@ -202,7 +203,19 @@ extension MassPointListExtension on List<MassPoint> {
     StringBuffer stringBuffer = StringBuffer();
 
     for (final point in this) {
-      stringBuffer.write('(${point.position.dx.toStringAsFixed(0)}, ${point.position.dy.toStringAsFixed(0)}), ');
+      stringBuffer.write(
+          '(${point.position.dx.toStringAsFixed(0)}, ${point.position.dy.toStringAsFixed(0)}), ');
+    }
+
+    return stringBuffer.toString();
+  }
+
+  String get forcePrintString {
+    StringBuffer stringBuffer = StringBuffer();
+
+    for (final point in this) {
+      stringBuffer.write(
+          '(${point.force.dx.toStringAsFixed(0)}, ${point.force.dy.toStringAsFixed(0)}), ');
     }
 
     return stringBuffer.toString();

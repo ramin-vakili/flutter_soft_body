@@ -3,19 +3,6 @@ import 'dart:ui';
 
 import 'models.dart';
 
-/// Generates some random on random positions inside the [size] area.
-List<MassPoint> generateRandomNodes(Size size, {int numberOfNodes = 10}) {
-  final List<MassPoint> nodes = <MassPoint>[];
-
-  for (int i = 0; i < numberOfNodes; i++) {
-    nodes.add(MassPoint(
-      _getRandomNodeSize(),
-      initialPosition: getRandomPositionInCanvas(size),
-    ));
-  }
-
-  return nodes;
-}
 
 /// Generates some random edges between random node pairs in [nodes] list.
 List<EdgeBase> generateRandomEdgesForNodes(List<MassPoint> nodes) {
@@ -38,8 +25,6 @@ Offset getRandomPositionInCanvas(Size size) => Offset(
       Random().nextInt(size.width.toInt()).toDouble(),
       Random().nextInt(size.height.toInt()).toDouble(),
     );
-
-double _getRandomNodeSize() => Random().nextInt(5) + 5.0;
 
 /// Generates two int numbers in the range of [nodes] length which in a way
 /// that i != j.
@@ -101,15 +86,15 @@ List<RectangleCollider> createRandomColliders(Size size) {
   final List<MassPoint> points = <MassPoint>[];
   final List<ElasticEdge> springs = <ElasticEdge>[];
 
-  final goo1 = MassPoint(30, initialPosition: const Offset(24, 5));
-  final goo2 = MassPoint(30, initialPosition: const Offset(80, 0));
-  final goo3 = MassPoint(30, initialPosition: const Offset(140, 10));
-  final goo4 = MassPoint(30, initialPosition: const Offset(30, 70));
-  final goo5 = MassPoint(30, initialPosition: const Offset(85, 69));
-  final goo6 = MassPoint(30, initialPosition: const Offset(152, 76));
-  final goo7 = MassPoint(30, initialPosition: const Offset(25, 140));
-  final goo8 = MassPoint(30, initialPosition: const Offset(75, 130));
-  final goo9 = MassPoint(30, initialPosition: const Offset(120, 120));
+  final goo1 = MassPoint(initialPosition: const Offset(24, 5));
+  final goo2 = MassPoint(initialPosition: const Offset(80, 0));
+  final goo3 = MassPoint(initialPosition: const Offset(140, 10));
+  final goo4 = MassPoint(initialPosition: const Offset(30, 70));
+  final goo5 = MassPoint(initialPosition: const Offset(85, 69));
+  final goo6 = MassPoint(initialPosition: const Offset(152, 76));
+  final goo7 = MassPoint(initialPosition: const Offset(25, 140));
+  final goo8 = MassPoint(initialPosition: const Offset(75, 130));
+  final goo9 = MassPoint(initialPosition: const Offset(120, 120));
 
   points.addAll(<MassPoint>[
     goo1,
@@ -170,11 +155,11 @@ List<RectangleCollider> createRandomColliders(Size size) {
   final List<ElasticEdge> springs = <ElasticEdge>[];
 
   Map<(int, int), (int, int)> pointPairs = {};
-  double diagonalLength = sqrt(2 * pow(edgeLength, 2));
+  final double diagonalLength = sqrt(2 * pow(edgeLength, 2));
 
   final List<List<MassPoint>> pointsMatrix = List.generate(
     row,
-    (i) => List.generate(column, (j) => MassPoint(30)),
+    (i) => List.generate(column, (j) => MassPoint()),
   );
 
   for (int i = 0; i < row; i++) {
@@ -212,6 +197,7 @@ double _getPointsDistance(int i, int j, (int, int) neighbour) =>
     (Offset(i.toDouble(), j.toDouble()) -
             Offset(neighbour.$1.toDouble(), neighbour.$2.toDouble()))
         .distance;
+
 
 List<(int, int)> getMatrixCellNeighbours(
   int a,

@@ -14,7 +14,7 @@ class SimulationScene extends StatefulWidget {
 
 class _SimulationSceneState extends State<SimulationScene>
     with TickerProviderStateMixin {
-  static const double gy = 9.8;
+  static const double gy = 12.8;
 
   Size? _graphCanvasSize;
   final GlobalKey _canvasKey = GlobalKey();
@@ -70,6 +70,10 @@ class _SimulationSceneState extends State<SimulationScene>
         _graphCanvasSize = renderBox.size;
         final graph = createRandomGraph2(
           _graphCanvasSize!,
+          row: 4,
+          column: 4,
+          edgeLength: 20,
+          position: const Offset(20, 20),
         );
         _points.addAll(graph.$1);
         _springs.addAll(graph.$2);
@@ -81,8 +85,8 @@ class _SimulationSceneState extends State<SimulationScene>
   }
 
   void _calculateForces(Size size, Duration deltaTime) {
-    print(_points.positionsPrintString);
-    print('##########################');
+    // print(_points.positionsPrintString);
+    // print('##########################');
 
     // Gravity
     for (final MassPoint point in _points) {
@@ -95,6 +99,10 @@ class _SimulationSceneState extends State<SimulationScene>
       edge.update(deltaTime, size);
     }
 
+    _applyEulerIntegration(deltaTime);
+  }
+
+  void _applyEulerIntegration(Duration deltaTime) {
     for (final MassPoint point in _points) {
       final double adjustedDeltaTime = (deltaTime.inMilliseconds / 10000);
 
