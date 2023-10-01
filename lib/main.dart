@@ -167,6 +167,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           key: _canvasKey,
           child: _graphCanvasSize != null
               ? GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onPanStart: (details) {
                     final Offset mousePos = Offset(
                       details.localPosition.dx,
@@ -206,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   },
                   child: Stack(
                     children: [
-                      CustomPaint(painter: ColliderPainter([_collider])),
+                      // CustomPaint(painter: ColliderPainter([_collider])),
                       CustomPaint(
                         painter: GraphPainter(
                           nodes: _points,
