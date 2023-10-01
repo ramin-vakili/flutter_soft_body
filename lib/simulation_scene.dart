@@ -182,7 +182,7 @@ class _SimulationSceneState extends State<SimulationScene>
                   CustomPaint(painter: ColliderPainter([_collider])),
                   CustomPaint(
                     painter: GraphPainter(
-                      nodes: _points,
+                      points: _points,
                       edges: _springs,
                     ),
                   ),

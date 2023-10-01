@@ -134,7 +134,7 @@ abstract class MassPoint {
 
   final double mass;
 
-  MassPoint(this.mass, {Offset? initialPosition, this.radius = 10})
+  MassPoint(this.mass, {Offset? initialPosition, this.radius = 6})
       : position = initialPosition ?? Offset.zero,
         velocity = Offset.zero,
         force = Offset.zero;

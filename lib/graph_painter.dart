@@ -6,18 +6,18 @@ import 'models.dart';
 class GraphPainter extends CustomPainter {
   /// Initializes the CustomPainter to paint the graph on the canvas.
   GraphPainter({
-    required this.nodes,
+    required this.points,
     required this.edges,
   })  : _nodePaint = Paint()
           ..color = Colors.blueAccent
-          ..style = PaintingStyle.stroke
+          ..style = PaintingStyle.fill
           ..strokeWidth = 1,
         _edgePaint = Paint()
           ..color = Colors.deepOrange
           ..strokeWidth = 3;
 
   /// List of graph nodes.
-  final List<MassPoint> nodes;
+  final List<MassPoint> points;
 
   /// List of graph edges.
   final List<EdgeBase> edges;
@@ -31,7 +31,7 @@ class GraphPainter extends CustomPainter {
       canvas.drawLine(edge.node1.position, edge.node2.position, _edgePaint);
     }
 
-    for (final MassPoint node in nodes) {
+    for (final MassPoint node in points) {
       canvas.drawCircle(node.position, node.radius, _nodePaint);
     }
   }
