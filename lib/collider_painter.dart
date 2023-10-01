@@ -6,7 +6,7 @@ class ColliderPainter extends CustomPainter {
   ColliderPainter(this.colliders)
       : _paint = Paint()
           ..color = Colors.blue
-          ..style = PaintingStyle.stroke
+          ..style = PaintingStyle.fill
           ..strokeWidth = 2.0;
 
   final List<RectangleCollider> colliders;
@@ -16,9 +16,18 @@ class ColliderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     for (final RectangleCollider collider in colliders) {
-      for (final ColliderEdge edge in collider.edges) {
-        canvas.drawLine(edge.point1, edge.point2, _paint);
+      final Path path = Path();
+
+      // TODO(Ramin): add getPath() method to collider class.
+      for (int i = 0; i < collider.edges.length; i++) {
+        final ColliderEdge edge = collider.edges[i];
+        if (i == 0) {
+          path.moveTo(edge.point1.x, edge.point1.y);
+        }
+        path.lineTo(edge.point2.x, edge.point2.y);
       }
+
+      canvas.drawPath(path, _paint);
     }
   }
 

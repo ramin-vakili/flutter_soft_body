@@ -69,9 +69,9 @@ RectangleCollider createRandomCollider() {
 
   final List<ColliderEdge> edges = <ColliderEdge>[
     ColliderEdge(topLeft, topRight),
-    ColliderEdge(topLeft, bottomLeft),
-    ColliderEdge(bottomLeft, bottomRight),
     ColliderEdge(topRight, bottomRight),
+    ColliderEdge(bottomRight, bottomLeft),
+    ColliderEdge(bottomLeft, topLeft),
   ];
 
   return RectangleCollider(points: points, edges: edges);
