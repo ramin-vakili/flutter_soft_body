@@ -72,8 +72,8 @@ class _SimulationSceneState extends State<SimulationScene>
           _graphCanvasSize!,
           row: 5,
           column: 4,
-          edgeLength: 40,
-          position: const Offset(20, 20),
+          edgeLength: 20,
+          position: const Offset(50, 50),
         );
         _points.addAll(graph.$1);
         _springs.addAll(graph.$2);

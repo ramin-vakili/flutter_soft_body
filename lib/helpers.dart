@@ -41,9 +41,9 @@ Offset getRandomPositionInCanvas(Size size) => Offset(
 List<RectangleCollider> createRandomColliders(Size size) {
   // Collider 1
   Offset collier1TopLeft = Offset(0, size.height / 4);
-  Offset collier1TopRight = Offset(size.width / 2.5, size.height / 3 + 25);
+  Offset collier1TopRight = Offset(size.width / 2.6, size.height / 3 + 25);
   Offset collier1BottomLeft = Offset(0, size.height / 3 + 30);
-  Offset collier1BottomRight = Offset(size.width / 2.5, size.height / 3 + 30);
+  Offset collier1BottomRight = Offset(size.width / 2.7, size.height / 2.5 + 30);
 
   final List<Offset> points1 = <Offset>[
     collier1TopLeft,
@@ -63,10 +63,10 @@ List<RectangleCollider> createRandomColliders(Size size) {
 
   // Collider 2
   Offset collier2TopLeft =
-      Offset(size.width - size.width / 2.5, size.height / 1.5);
+      Offset(size.width - size.width / 2.2, size.height / 1.8);
   Offset collier2TopRight = Offset(size.width, size.height / 2.5);
   Offset collier2BottomLeft =
-      Offset(size.width - size.width / 2.5, size.height / 1.5 + 10);
+      Offset(size.width - size.width / 2.2, size.height / 1.5 + 10);
   Offset collier2BottomRight = Offset(size.width, size.height / 2.5 + 60);
 
   final List<Offset> points2 = <Offset>[

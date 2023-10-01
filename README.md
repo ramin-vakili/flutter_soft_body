@@ -1,3 +1,4 @@
+TODO: Test on different screen sizes
 🚀 Exciting Project Announcement: Simulating Soft Bodies in Flutter! 🤖
 
 Hey LinkedIn community! 👋
@@ -14,7 +15,7 @@ Here are some key features of the project:
 
 ✨ Accumulation of Forces: I've incorporated gravity, spring forces (following Hooke's Law), and more to create a dynamic and realistic soft body.
 
-🚀 Velocity and Position Updates: The simulation continuously updates the velocity and position of each mass point to ensure smooth and lifelike movement.
+🚀 Velocity and Position Updates: Using Euler's integration the simulation continuously updates the velocity and position of each mass point to ensure smooth and lifelike movement.
 
 🌐 Collision Detection: I've implemented ray casting for collision detection, allowing the soft body to interact with its environment realistically.
 
