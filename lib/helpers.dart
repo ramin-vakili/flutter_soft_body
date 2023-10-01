@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'models.dart';
 
-
 /// Generates some random edges between random node pairs in [nodes] list.
 List<EdgeBase> generateRandomEdgesForNodes(List<MassPoint> nodes) {
   final List<EdgeBase> edges = <EdgeBase>[];
@@ -164,7 +163,8 @@ List<RectangleCollider> createRandomColliders(Size size) {
 
   for (int i = 0; i < row; i++) {
     for (int j = 0; j < column; j++) {
-      final List<(int, int)> neighbours = getMatrixCellNeighbours(i, j, 3, 3);
+      final List<(int, int)> neighbours =
+          getMatrixCellNeighbours(i, j, row, column);
 
       pointsMatrix[i][j].position =
           Offset(i * edgeLength, j * edgeLength) + position;
@@ -197,7 +197,6 @@ double _getPointsDistance(int i, int j, (int, int) neighbour) =>
     (Offset(i.toDouble(), j.toDouble()) -
             Offset(neighbour.$1.toDouble(), neighbour.$2.toDouble()))
         .distance;
-
 
 List<(int, int)> getMatrixCellNeighbours(
   int a,
