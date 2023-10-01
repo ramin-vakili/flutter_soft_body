@@ -1,3 +1,4 @@
+import 'dart:isolate';
 import 'dart:math';
 import 'dart:ui';
 
@@ -54,11 +55,11 @@ double _getRandomNodeSize() => Random().nextInt(5) + 5.0;
   return (i, j);
 }
 
-RectangleCollider createRandomCollider() {
-  const Offset topLeft = Offset(0, 300);
-  const Offset topRight = Offset(400, 370);
-  const Offset bottomLeft = Offset(0, 450);
-  const Offset bottomRight = Offset(400, 650);
+List<RectangleCollider> createRandomColliders(Size size) {
+  const Offset topLeft = Offset(0, 200);
+  const Offset topRight = Offset(200, 270);
+  const Offset bottomLeft = Offset(0, 300);
+  const Offset bottomRight = Offset(200,300);
 
   final List<Offset> points = <Offset>[
     topLeft,
@@ -74,7 +75,27 @@ RectangleCollider createRandomCollider() {
     ColliderEdge(bottomLeft, topLeft),
   ];
 
-  return RectangleCollider(points: points, edges: edges);
+  final Offset groundTopLeft = Offset(0, size.height - 10);
+  final Offset groundTopRight = Offset(size.width, size.height - 10);
+  final Offset groundBottomRight = Offset(size.width, size.height);
+  final Offset groundBottomLeft = Offset(0, size.height);
+
+  final RectangleCollider ground = RectangleCollider(points: [
+    groundTopLeft,
+    groundTopRight,
+    groundBottomRight,
+    groundBottomLeft
+  ], edges: [
+    ColliderEdge(groundTopLeft, groundTopRight),
+    ColliderEdge(groundTopRight, groundBottomRight),
+    ColliderEdge(groundBottomRight, groundBottomLeft),
+    ColliderEdge(groundBottomLeft, groundTopLeft),
+  ]);
+
+  return [
+    RectangleCollider(points: points, edges: edges),
+    ground,
+  ];
 }
 
 (List<MassPoint>, List<ElasticEdge>) createRandomGraph(Size canvasSize) {
@@ -106,21 +127,21 @@ RectangleCollider createRandomCollider() {
   springs.addAll([
     ElasticEdge(node1: goo1, node2: goo2),
     ElasticEdge(node1: goo1, node2: goo4),
-    ElasticEdge(node1: goo1, node2: goo5),
+    ElasticEdge(node1: goo1, node2: goo5, length: 42),
     //
     ElasticEdge(node1: goo2, node2: goo3),
-    ElasticEdge(node1: goo2, node2: goo4),
+    ElasticEdge(node1: goo2, node2: goo4, length: 42),
     ElasticEdge(node1: goo2, node2: goo5),
-    ElasticEdge(node1: goo2, node2: goo6),
+    ElasticEdge(node1: goo2, node2: goo6, length: 42),
     //
-    ElasticEdge(node1: goo3, node2: goo5),
+    ElasticEdge(node1: goo3, node2: goo5, length: 42),
     ElasticEdge(node1: goo3, node2: goo6),
     //
     ElasticEdge(node1: goo4, node2: goo5),
     ElasticEdge(node1: goo4, node2: goo7),
-    ElasticEdge(node1: goo4, node2: goo8),
+    ElasticEdge(node1: goo4, node2: goo8, length: 42),
     //
-    ElasticEdge(node1: goo5, node2: goo7),
+    ElasticEdge(node1: goo5, node2: goo7, length: 42),
     ElasticEdge(node1: goo5, node2: goo8),
     //
     ElasticEdge(node1: goo7, node2: goo8),
@@ -128,9 +149,9 @@ RectangleCollider createRandomCollider() {
     ElasticEdge(node1: goo5, node2: goo6),
     ElasticEdge(node1: goo5, node2: goo7),
     ElasticEdge(node1: goo5, node2: goo8),
-    ElasticEdge(node1: goo5, node2: goo9),
+    ElasticEdge(node1: goo5, node2: goo9, length: 42),
     //
-    ElasticEdge(node1: goo6, node2: goo8),
+    ElasticEdge(node1: goo6, node2: goo8, length: 42),
     ElasticEdge(node1: goo6, node2: goo9),
     //
     ElasticEdge(node1: goo8, node2: goo9),

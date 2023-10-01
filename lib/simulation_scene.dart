@@ -23,15 +23,13 @@ class _SimulationSceneState extends State<SimulationScene>
 
   final List<MassPoint> _points = <MassPoint>[];
   final List<ElasticEdge> _springs = <ElasticEdge>[];
-
-  late final RectangleCollider _collider;
+  final List<RectangleCollider> _colliders = [];
 
   @override
   void initState() {
     super.initState();
     createTicker((elapsed) {});
 
-    _collider = createRandomCollider();
     _resetGraph();
     _setupTicker();
   }
@@ -73,6 +71,7 @@ class _SimulationSceneState extends State<SimulationScene>
         final graph = createRandomGraph(_graphCanvasSize!);
         _points.addAll(graph.$1);
         _springs.addAll(graph.$2);
+        _colliders.addAll(createRandomColliders(_graphCanvasSize!));
 
         setState(() {});
       }
@@ -97,10 +96,8 @@ class _SimulationSceneState extends State<SimulationScene>
       final dryVelocity =
           point.velocity + point.force * adjustedDeltaTime / point.mass;
 
-      final Offset? collisionPoint = _collider.getCollidingPoint(
-        point.position + dryVelocity,
-        point.radius,
-      );
+      // TODO(Ramin): for performance improvement first check the bounding box of colliders.
+      final Offset? collisionPoint = _getCollisionPoint(point, dryVelocity);
 
       if (collisionPoint != null) {
         final Offset pushVectorNormalized =
@@ -129,6 +126,24 @@ class _SimulationSceneState extends State<SimulationScene>
         point.position += point.velocity;
       }
     }
+  }
+
+  // TODO(Ramin): check if need handle when a pont collides two colliders at the same time.
+  /// Gets the collision point
+
+  Offset? _getCollisionPoint(MassPoint point, Offset dryVelocity) {
+    for (final RectangleCollider collider in _colliders) {
+      final Offset? collisionPoint = collider.getCollidingPoint(
+        point.position + dryVelocity,
+        point.radius,
+      );
+
+      if (collisionPoint != null) {
+        return collisionPoint;
+      }
+    }
+
+    return null;
   }
 
   @override
@@ -179,7 +194,7 @@ class _SimulationSceneState extends State<SimulationScene>
               },
               child: Stack(
                 children: [
-                  CustomPaint(painter: ColliderPainter([_collider])),
+                  CustomPaint(painter: ColliderPainter(_colliders)),
                   CustomPaint(
                     painter: GraphPainter(
                       points: _points,

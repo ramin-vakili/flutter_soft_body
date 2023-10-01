@@ -157,7 +157,7 @@ abstract class EdgeBase {
 
 /// A connection between two nodes/particle, joint, which has elastic behaviour.
 class ElasticEdge implements EdgeBase {
-  double ks = 200;
+  double ks = 210;
   double kd = 1200;
 
   @override
@@ -166,9 +166,9 @@ class ElasticEdge implements EdgeBase {
   @override
   final MassPoint node2;
 
-  final double length = 55;
+  final double length;
 
-  ElasticEdge({required this.node1, required this.node2});
+  ElasticEdge({required this.node1, required this.node2, this.length = 30});
 
   void update(Duration elapsedTime, Size size) {
     double x1 = node1.position.dx;
