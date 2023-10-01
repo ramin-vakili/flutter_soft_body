@@ -56,7 +56,7 @@ double _getRandomNodeSize() => Random().nextInt(5) + 5.0;
 
 RectangleCollider createRandomCollider() {
   const Offset topLeft = Offset(0, 300);
-  const Offset topRight = Offset(400, 430);
+  const Offset topRight = Offset(400, 370);
   const Offset bottomLeft = Offset(0, 450);
   const Offset bottomRight = Offset(400, 650);
 
@@ -102,12 +102,6 @@ RectangleCollider createRandomCollider() {
     goo8,
     goo9,
   ]);
-
-  // _springs.addAll([
-  //   ElasticEdge(node1: goo1, node2: goo2),
-  //   ElasticEdge(node1: goo2, node2: goo3),
-  //   ElasticEdge(node1: goo1, node2: goo3),
-  // ]);
 
   springs.addAll([
     ElasticEdge(node1: goo1, node2: goo2),

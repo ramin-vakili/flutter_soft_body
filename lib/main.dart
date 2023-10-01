@@ -153,8 +153,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         // final Offset rVelocityVector =  velocity - 2 (velocity . n) n
 
         point.force += collisionForce;
-        print(
-            '${point.force} $newDryVelocity ${collisionImpulse}, $collisionForce');
 
         point.velocity = point.force * adjustedDeltaTime / point.mass;
         // point.position += point.velocity;
