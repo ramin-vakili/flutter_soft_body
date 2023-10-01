@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'models.dart';
 
-/// The [CustomPainter] which paints the graph on the canvas.
-class GraphPainter extends CustomPainter {
+/// The [CustomPainter] which paints the soft body consists of points and
+/// edges connecting the points on the canvas.
+class SoftBodyPainter extends CustomPainter {
   /// Initializes the CustomPainter to paint the graph on the canvas.
-  GraphPainter({
+  SoftBodyPainter({
     required this.points,
     required this.edges,
   })  : _nodePaint = Paint()
@@ -31,8 +32,8 @@ class GraphPainter extends CustomPainter {
       canvas.drawLine(edge.node1.position, edge.node2.position, _edgePaint);
     }
 
-    for (final MassPoint node in points) {
-      canvas.drawCircle(node.position, node.radius, _nodePaint);
+    for (final MassPoint point in points) {
+      canvas.drawCircle(point.position, point.radius, _nodePaint);
     }
   }
 

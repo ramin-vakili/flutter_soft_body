@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:soft_body/soft_body_painter.dart';
 
 import 'collider_painter.dart';
-import 'graph_painter.dart';
 import 'helpers.dart';
 import 'models.dart';
 
@@ -209,7 +209,7 @@ class _SimulationSceneState extends State<SimulationScene>
                 children: [
                   CustomPaint(painter: ColliderPainter(_colliders)),
                   CustomPaint(
-                    painter: GraphPainter(
+                    painter: SoftBodyPainter(
                       points: _points,
                       edges: _springs,
                     ),
