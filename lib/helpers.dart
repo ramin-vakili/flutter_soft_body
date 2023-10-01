@@ -58,7 +58,7 @@ List<RectangleCollider> createRandomColliders(Size size) {
   const Offset topLeft = Offset(0, 200);
   const Offset topRight = Offset(200, 270);
   const Offset bottomLeft = Offset(0, 300);
-  const Offset bottomRight = Offset(200,300);
+  const Offset bottomRight = Offset(200, 300);
 
   final List<Offset> points = <Offset>[
     topLeft,
@@ -157,4 +157,102 @@ List<RectangleCollider> createRandomColliders(Size size) {
   ]);
 
   return (points, springs);
+}
+
+(List<MassPoint>, List<ElasticEdge>) createRandomGraph2(Size canvasSize) {
+  final List<MassPoint> points = <MassPoint>[];
+  final List<ElasticEdge> springs = <ElasticEdge>[];
+  const int row = 3;
+  const int column = 3;
+
+  Map<int, int> pointPairs = <int, int>{};
+
+  final List<List<MassPoint>> pointsMatrix = List.filled(
+    row,
+    List.filled(column, MassPoint(30)),
+  );
+
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < column; j++) {}
+  }
+
+  final goo1 = MassPoint(30, initialPosition: const Offset(24, 5));
+  final goo2 = MassPoint(30, initialPosition: const Offset(80, 0));
+  final goo3 = MassPoint(30, initialPosition: const Offset(140, 10));
+  final goo4 = MassPoint(30, initialPosition: const Offset(30, 70));
+  final goo5 = MassPoint(30, initialPosition: const Offset(85, 69));
+  final goo6 = MassPoint(30, initialPosition: const Offset(152, 76));
+  final goo7 = MassPoint(30, initialPosition: const Offset(25, 140));
+  final goo8 = MassPoint(30, initialPosition: const Offset(75, 130));
+  final goo9 = MassPoint(30, initialPosition: const Offset(120, 120));
+
+  points.addAll(<MassPoint>[
+    goo1,
+    goo2,
+    goo3,
+    goo4,
+    goo5,
+    goo6,
+    goo7,
+    goo8,
+    goo9,
+  ]);
+
+  springs.addAll([
+    ElasticEdge(node1: goo1, node2: goo2),
+    ElasticEdge(node1: goo1, node2: goo4),
+    ElasticEdge(node1: goo1, node2: goo5, length: 42),
+    //
+    ElasticEdge(node1: goo2, node2: goo3),
+    ElasticEdge(node1: goo2, node2: goo4, length: 42),
+    ElasticEdge(node1: goo2, node2: goo5),
+    ElasticEdge(node1: goo2, node2: goo6, length: 42),
+    //
+    ElasticEdge(node1: goo3, node2: goo5, length: 42),
+    ElasticEdge(node1: goo3, node2: goo6),
+    //
+    ElasticEdge(node1: goo4, node2: goo5),
+    ElasticEdge(node1: goo4, node2: goo7),
+    ElasticEdge(node1: goo4, node2: goo8, length: 42),
+    //
+    ElasticEdge(node1: goo5, node2: goo7, length: 42),
+    ElasticEdge(node1: goo5, node2: goo8),
+    //
+    ElasticEdge(node1: goo7, node2: goo8),
+    //
+    ElasticEdge(node1: goo5, node2: goo6),
+    ElasticEdge(node1: goo5, node2: goo7),
+    ElasticEdge(node1: goo5, node2: goo8),
+    ElasticEdge(node1: goo5, node2: goo9, length: 42),
+    //
+    ElasticEdge(node1: goo6, node2: goo8, length: 42),
+    ElasticEdge(node1: goo6, node2: goo9),
+    //
+    ElasticEdge(node1: goo8, node2: goo9),
+  ]);
+
+  return (points, springs);
+}
+
+List<(int, int)> getMatrixCellNeighbours(
+  int a,
+  int b,
+  int rowNumber,
+  int columnNumber,
+) {
+  List<(int, int)> pairs = [];
+  for (int i = a - 1; i <= a + 1; i++) {
+    for (int j = b - 1; j <= b + 1; j++) {
+      if (i < 0 ||
+          j < 0 ||
+          i > rowNumber - 1 ||
+          j > columnNumber - 1 ||
+          (i == a && j == b)) {
+        continue;
+      }
+
+      pairs.add((i, j));
+    }
+  }
+  return pairs;
 }
