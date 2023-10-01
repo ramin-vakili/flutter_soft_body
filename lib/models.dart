@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:soft_body/main.dart';
 
 class ColliderEdge {
   ColliderEdge(this.point1, this.point2);
@@ -126,7 +125,7 @@ extension OffsetExtension on Offset {
   Offset get normalized => this / distance;
 }
 
-abstract class MassPoint {
+class MassPoint {
   Offset position;
   Offset velocity;
   Offset force;
@@ -142,11 +141,6 @@ abstract class MassPoint {
   set setPosition(Offset newPosition) {
     position = newPosition;
   }
-}
-
-/// A Goo ball.
-class GooBall extends MassPoint {
-  GooBall(super.mass, {super.initialPosition});
 }
 
 abstract class EdgeBase {

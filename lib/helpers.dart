@@ -1,4 +1,3 @@
-import 'dart:isolate';
 import 'dart:math';
 import 'dart:ui';
 
@@ -9,7 +8,7 @@ List<MassPoint> generateRandomNodes(Size size, {int numberOfNodes = 10}) {
   final List<MassPoint> nodes = <MassPoint>[];
 
   for (int i = 0; i < numberOfNodes; i++) {
-    nodes.add(GooBall(
+    nodes.add(MassPoint(
       _getRandomNodeSize(),
       initialPosition: getRandomPositionInCanvas(size),
     ));
@@ -102,15 +101,15 @@ List<RectangleCollider> createRandomColliders(Size size) {
   final List<MassPoint> points = <MassPoint>[];
   final List<ElasticEdge> springs = <ElasticEdge>[];
 
-  final goo1 = GooBall(30, initialPosition: const Offset(24, 5));
-  final goo2 = GooBall(30, initialPosition: const Offset(80, 0));
-  final goo3 = GooBall(30, initialPosition: const Offset(140, 10));
-  final goo4 = GooBall(30, initialPosition: const Offset(30, 70));
-  final goo5 = GooBall(30, initialPosition: const Offset(85, 69));
-  final goo6 = GooBall(30, initialPosition: const Offset(152, 76));
-  final goo7 = GooBall(30, initialPosition: const Offset(25, 140));
-  final goo8 = GooBall(30, initialPosition: const Offset(75, 130));
-  final goo9 = GooBall(30, initialPosition: const Offset(120, 120));
+  final goo1 = MassPoint(30, initialPosition: const Offset(24, 5));
+  final goo2 = MassPoint(30, initialPosition: const Offset(80, 0));
+  final goo3 = MassPoint(30, initialPosition: const Offset(140, 10));
+  final goo4 = MassPoint(30, initialPosition: const Offset(30, 70));
+  final goo5 = MassPoint(30, initialPosition: const Offset(85, 69));
+  final goo6 = MassPoint(30, initialPosition: const Offset(152, 76));
+  final goo7 = MassPoint(30, initialPosition: const Offset(25, 140));
+  final goo8 = MassPoint(30, initialPosition: const Offset(75, 130));
+  final goo9 = MassPoint(30, initialPosition: const Offset(120, 120));
 
   points.addAll(<MassPoint>[
     goo1,
