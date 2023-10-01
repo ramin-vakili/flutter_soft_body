@@ -104,7 +104,8 @@ class _SimulationSceneState extends State<SimulationScene>
 
   void _applyEulerIntegration(Duration deltaTime) {
     for (final MassPoint point in _points) {
-      final double adjustedDeltaTime = (deltaTime.inMilliseconds / 10000);
+      final double adjustedDeltaTime =
+          (deltaTime.inMilliseconds / 10000).clamp(0.001, 0.0016);
 
       final dryVelocity =
           point.velocity + point.force * adjustedDeltaTime / point.mass;
