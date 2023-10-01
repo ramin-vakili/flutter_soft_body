@@ -68,7 +68,9 @@ class _SimulationSceneState extends State<SimulationScene>
 
       if (renderBox != null) {
         _graphCanvasSize = renderBox.size;
-        final graph = createRandomGraph2(_graphCanvasSize!);
+        final graph = createRandomGraph2(
+          _graphCanvasSize!,
+        );
         _points.addAll(graph.$1);
         _springs.addAll(graph.$2);
         _colliders.addAll(createRandomColliders(_graphCanvasSize!));

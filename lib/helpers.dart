@@ -159,11 +159,14 @@ List<RectangleCollider> createRandomColliders(Size size) {
   return (points, springs);
 }
 
-(List<MassPoint>, List<ElasticEdge>) createRandomGraph2(Size canvasSize) {
+(List<MassPoint>, List<ElasticEdge>) createRandomGraph2(
+  Size canvasSize, {
+  int row = 3,
+  int column = 3,
+  Offset position = Offset.zero,
+}) {
   final List<MassPoint> points = <MassPoint>[];
   final List<ElasticEdge> springs = <ElasticEdge>[];
-  const int row = 3;
-  const int column = 3;
 
   Map<(int, int), (int, int)> pointPairs = {};
 
@@ -176,7 +179,7 @@ List<RectangleCollider> createRandomColliders(Size size) {
     for (int j = 0; j < column; j++) {
       final List<(int, int)> neighbours = getMatrixCellNeighbours(i, j, 3, 3);
 
-      pointsMatrix[i][j].position = Offset(i * 50, j * 50);
+      pointsMatrix[i][j].position = Offset(i * 50, j * 50) + position;
 
       points.add(pointsMatrix[i][j]);
 
