@@ -175,7 +175,7 @@ List<RectangleCollider> createRandomColliders(Size size) {
   return (points, springs);
 }
 
-(List<MassPoint>, List<ElasticEdge>) createRandomGraph2(
+(List<MassPoint>, List<ElasticEdge>) generateSampleSoftBody(
   Size canvasSize, {
   int row = 3,
   int column = 3,

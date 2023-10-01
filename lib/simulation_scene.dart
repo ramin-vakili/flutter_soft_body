@@ -68,11 +68,11 @@ class _SimulationSceneState extends State<SimulationScene>
 
       if (renderBox != null) {
         _graphCanvasSize = renderBox.size;
-        final graph = createRandomGraph2(
+        final graph = generateSampleSoftBody(
           _graphCanvasSize!,
-          row: 4,
+          row: 5,
           column: 4,
-          edgeLength: 20,
+          edgeLength: 40,
           position: const Offset(20, 20),
         );
         _points.addAll(graph.$1);
