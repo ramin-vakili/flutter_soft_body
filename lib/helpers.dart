@@ -164,11 +164,13 @@ List<RectangleCollider> createRandomColliders(Size size) {
   int row = 3,
   int column = 3,
   Offset position = Offset.zero,
+  double edgeLength = 50,
 }) {
   final List<MassPoint> points = <MassPoint>[];
   final List<ElasticEdge> springs = <ElasticEdge>[];
 
   Map<(int, int), (int, int)> pointPairs = {};
+  double diagonalLength = sqrt(2 * pow(edgeLength, 2));
 
   final List<List<MassPoint>> pointsMatrix = List.generate(
     row,
@@ -179,7 +181,8 @@ List<RectangleCollider> createRandomColliders(Size size) {
     for (int j = 0; j < column; j++) {
       final List<(int, int)> neighbours = getMatrixCellNeighbours(i, j, 3, 3);
 
-      pointsMatrix[i][j].position = Offset(i * 50, j * 50) + position;
+      pointsMatrix[i][j].position =
+          Offset(i * edgeLength, j * edgeLength) + position;
 
       points.add(pointsMatrix[i][j]);
 
@@ -192,16 +195,23 @@ List<RectangleCollider> createRandomColliders(Size size) {
             ElasticEdge(
               node1: pointsMatrix[i][j],
               node2: pointsMatrix[neighbour.$1][neighbour.$2],
+              length: _getPointsDistance(i, j, neighbour) > 1
+                  ? diagonalLength
+                  : edgeLength,
             ),
           );
         }
       }
     }
   }
-  print('Done');
 
   return (points, springs);
 }
+
+double _getPointsDistance(int i, int j, (int, int) neighbour) =>
+    (Offset(i.toDouble(), j.toDouble()) -
+            Offset(neighbour.$1.toDouble(), neighbour.$2.toDouble()))
+        .distance;
 
 List<(int, int)> getMatrixCellNeighbours(
   int a,
