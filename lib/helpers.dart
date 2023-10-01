@@ -39,44 +39,76 @@ Offset getRandomPositionInCanvas(Size size) => Offset(
 }
 
 List<RectangleCollider> createRandomColliders(Size size) {
-  const Offset topLeft = Offset(0, 200);
-  const Offset topRight = Offset(200, 270);
-  const Offset bottomLeft = Offset(0, 300);
-  const Offset bottomRight = Offset(200, 300);
+  // Collider 1
+  Offset collier1TopLeft = Offset(0, size.height / 4);
+  Offset collier1TopRight = Offset(size.width / 2.5, size.height / 3 + 25);
+  Offset collier1BottomLeft = Offset(0, size.height / 3 + 30);
+  Offset collier1BottomRight = Offset(size.width / 2.5, size.height / 3 + 30);
 
-  final List<Offset> points = <Offset>[
-    topLeft,
-    topRight,
-    bottomLeft,
-    bottomRight
+  final List<Offset> points1 = <Offset>[
+    collier1TopLeft,
+    collier1TopRight,
+    collier1BottomLeft,
+    collier1BottomRight
   ];
 
-  final List<ColliderEdge> edges = <ColliderEdge>[
-    ColliderEdge(topLeft, topRight),
-    ColliderEdge(topRight, bottomRight),
-    ColliderEdge(bottomRight, bottomLeft),
-    ColliderEdge(bottomLeft, topLeft),
+  final List<ColliderEdge> edges1 = <ColliderEdge>[
+    ColliderEdge(collier1TopLeft, collier1TopRight),
+    ColliderEdge(collier1TopRight, collier1BottomRight),
+    ColliderEdge(collier1BottomRight, collier1BottomLeft),
+    ColliderEdge(collier1BottomLeft, collier1TopLeft),
   ];
 
+  final collider1 = RectangleCollider(points: points1, edges: edges1);
+
+  // Collider 2
+  Offset collier2TopLeft =
+      Offset(size.width - size.width / 2.5, size.height / 1.5);
+  Offset collier2TopRight = Offset(size.width, size.height / 2.5);
+  Offset collier2BottomLeft =
+      Offset(size.width - size.width / 2.5, size.height / 1.5 + 10);
+  Offset collier2BottomRight = Offset(size.width, size.height / 2.5 + 60);
+
+  final List<Offset> points2 = <Offset>[
+    collier2TopLeft,
+    collier2TopRight,
+    collier2BottomLeft,
+    collier2BottomRight
+  ];
+
+  final List<ColliderEdge> edges2 = <ColliderEdge>[
+    ColliderEdge(collier2TopLeft, collier2TopRight),
+    ColliderEdge(collier2TopRight, collier2BottomRight),
+    ColliderEdge(collier2BottomRight, collier2BottomLeft),
+    ColliderEdge(collier2BottomLeft, collier2TopLeft),
+  ];
+
+  final collider2 = RectangleCollider(points: points2, edges: edges2);
+
+  // Ground
   final Offset groundTopLeft = Offset(0, size.height - 10);
   final Offset groundTopRight = Offset(size.width, size.height - 10);
   final Offset groundBottomRight = Offset(size.width, size.height);
   final Offset groundBottomLeft = Offset(0, size.height);
 
-  final RectangleCollider ground = RectangleCollider(points: [
-    groundTopLeft,
-    groundTopRight,
-    groundBottomRight,
-    groundBottomLeft
-  ], edges: [
-    ColliderEdge(groundTopLeft, groundTopRight),
-    ColliderEdge(groundTopRight, groundBottomRight),
-    ColliderEdge(groundBottomRight, groundBottomLeft),
-    ColliderEdge(groundBottomLeft, groundTopLeft),
-  ]);
+  final RectangleCollider ground = RectangleCollider(
+    points: [
+      groundTopLeft,
+      groundTopRight,
+      groundBottomRight,
+      groundBottomLeft
+    ],
+    edges: [
+      ColliderEdge(groundTopLeft, groundTopRight),
+      ColliderEdge(groundTopRight, groundBottomRight),
+      ColliderEdge(groundBottomRight, groundBottomLeft),
+      ColliderEdge(groundBottomLeft, groundTopLeft),
+    ],
+  );
 
   return [
-    RectangleCollider(points: points, edges: edges),
+    collider1,
+    collider2,
     ground,
   ];
 }
