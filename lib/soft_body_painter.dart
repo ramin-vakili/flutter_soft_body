@@ -7,8 +7,7 @@ import 'models.dart';
 class SoftBodyPainter extends CustomPainter {
   /// Initializes the CustomPainter to paint the graph on the canvas.
   SoftBodyPainter({
-    required this.points,
-    required this.edges,
+    required this.softBody
   })  : _nodePaint = Paint()
           ..color = Colors.blueAccent
           ..style = PaintingStyle.fill
@@ -18,21 +17,18 @@ class SoftBodyPainter extends CustomPainter {
           ..strokeWidth = 3;
 
   /// List of graph nodes.
-  final List<MassPoint> points;
-
-  /// List of graph edges.
-  final List<EdgeBase> edges;
+  final SoftBody softBody;
 
   final Paint _nodePaint;
   final Paint _edgePaint;
 
   @override
   void paint(Canvas canvas, Size size) {
-    for (final EdgeBase edge in edges) {
+    for (final EdgeBase edge in softBody.edges) {
       canvas.drawLine(edge.node1.position, edge.node2.position, _edgePaint);
     }
 
-    for (final MassPoint point in points) {
+    for (final MassPoint point in softBody.points) {
       canvas.drawCircle(point.position, point.radius, _nodePaint);
     }
   }

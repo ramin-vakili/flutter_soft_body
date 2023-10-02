@@ -175,7 +175,7 @@ List<RectangleCollider> createRandomColliders(Size size) {
   return (points, springs);
 }
 
-(List<MassPoint>, List<ElasticEdge>) generateSampleSoftBody(
+SoftBody generateSampleSoftBody(
   Size canvasSize, {
   int row = 3,
   int column = 3,
@@ -222,7 +222,7 @@ List<RectangleCollider> createRandomColliders(Size size) {
     }
   }
 
-  return (points, springs);
+  return SoftBody(points, springs);
 }
 
 double _getPointsDistance(int i, int j, (int, int) neighbour) =>

@@ -125,6 +125,17 @@ extension OffsetExtension on Offset {
   Offset get normalized => this / distance;
 }
 
+abstract class SimulationObject {
+  List<Offset> get orderedPaintingPathPoints;
+}
+
+class SoftBody {
+  final List<MassPoint> points;
+  final List<ElasticEdge> edges;
+
+  SoftBody(this.points, this.edges);
+}
+
 class MassPoint {
   Offset position;
   Offset velocity;

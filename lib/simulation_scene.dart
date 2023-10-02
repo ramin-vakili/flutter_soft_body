@@ -21,8 +21,7 @@ class _SimulationSceneState extends State<SimulationScene>
 
   MassPoint? _selectedNode;
 
-  final List<MassPoint> _points = <MassPoint>[];
-  final List<ElasticEdge> _springs = <ElasticEdge>[];
+  late SoftBody _softBody;
   final List<RectangleCollider> _colliders = [];
 
   @override
@@ -68,15 +67,13 @@ class _SimulationSceneState extends State<SimulationScene>
 
       if (renderBox != null) {
         _graphCanvasSize = renderBox.size;
-        final graph = generateSampleSoftBody(
+        _softBody = generateSampleSoftBody(
           _graphCanvasSize!,
           row: 5,
           column: 4,
           edgeLength: 20,
           position: const Offset(50, 50),
         );
-        _points.addAll(graph.$1);
-        _springs.addAll(graph.$2);
         _colliders.addAll(createRandomColliders(_graphCanvasSize!));
 
         setState(() {});
@@ -89,13 +86,13 @@ class _SimulationSceneState extends State<SimulationScene>
     // print('##########################');
 
     // Gravity
-    for (final MassPoint point in _points) {
+    for (final MassPoint point in _softBody.points) {
       point.force = Offset.zero;
       final double yForce = gy * point.mass;
       point.force += Offset(0, yForce);
     }
 
-    for (final ElasticEdge edge in _springs) {
+    for (final ElasticEdge edge in _softBody.edges) {
       edge.update(deltaTime, size);
     }
 
@@ -103,7 +100,7 @@ class _SimulationSceneState extends State<SimulationScene>
   }
 
   void _applyEulerIntegration(Duration deltaTime) {
-    for (final MassPoint point in _points) {
+    for (final MassPoint point in _softBody.points) {
       final double adjustedDeltaTime =
           (deltaTime.inMilliseconds / 10000).clamp(0.001, 0.0016);
 
@@ -175,7 +172,7 @@ class _SimulationSceneState extends State<SimulationScene>
                   details.localPosition.dy,
                 );
 
-                for (final MassPoint node in _points) {
+                for (final MassPoint node in _softBody.points) {
                   final Rect nodeRect = Rect.fromCenter(
                     center: node.position,
                     width: node.mass,
@@ -210,10 +207,7 @@ class _SimulationSceneState extends State<SimulationScene>
                 children: [
                   CustomPaint(painter: ColliderPainter(_colliders)),
                   CustomPaint(
-                    painter: SoftBodyPainter(
-                      points: _points,
-                      edges: _springs,
-                    ),
+                    painter: SoftBodyPainter(softBody: _softBody),
                   ),
                 ],
               ),
