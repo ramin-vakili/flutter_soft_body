@@ -7,9 +7,9 @@ I'm thrilled to share a project I've been working on - a soft body simulation im
 
 Inspired by Gonkee's fantastic video explaining the physics and formulas behind soft body simulations, I decided to dive into the world of mass-spring models and bring it to life in Flutter. 🌟
 
-🎥 You can watch the video that inspired me here: [YouTube Video Link]
+🎥 You can watch the video that inspired me here: [https://www.youtube.com/watch?v=kyQP4t_wOGI]
 
-📂 And here's the link to my GitHub repository where you can check out the code and experiment with the simulation yourself: [GitHub Repository Link]
+📂 And here's the link to my GitHub repository where you can check out the code and experiment with the simulation yourself: [https://github.com/ramin-vakili/soft_body]
 
 Here are some key features of the project:
 
