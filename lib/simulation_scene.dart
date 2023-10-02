@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soft_body/simulation_object_painter.dart';
 import 'package:soft_body/soft_body_painter.dart';
 
 import 'collider_painter.dart';
@@ -209,6 +210,7 @@ class _SimulationSceneState extends State<SimulationScene>
                   CustomPaint(
                     painter: SoftBodyPainter(softBody: _softBody),
                   ),
+                  CustomPaint(painter: SimulationObjectPainter(_softBody))
                 ],
               ),
             )

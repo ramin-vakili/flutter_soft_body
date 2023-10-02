@@ -193,6 +193,9 @@ SoftBody generateSampleSoftBody(
     (i) => List.generate(column, (j) => MassPoint()),
   );
 
+  final List<MassPoint> paintingPathPoints =
+      getSoftBodyPaintingPoints(pointsMatrix);
+
   for (int i = 0; i < row; i++) {
     for (int j = 0; j < column; j++) {
       final List<(int, int)> neighbours =
@@ -222,7 +225,33 @@ SoftBody generateSampleSoftBody(
     }
   }
 
-  return SoftBody(points, springs);
+  return SoftBody(points, springs, paintingPathPoints);
+}
+
+List<MassPoint> getSoftBodyPaintingPoints(List<List<MassPoint>> pointsMatrix) {
+  final List<MassPoint> pathPoints = <MassPoint>[];
+
+  // Top row
+  for (int j = 0; j < pointsMatrix.first.length; j++) {
+    pathPoints.add(pointsMatrix[0][j]);
+  }
+
+  // right side
+  for (int i = 1; i < pointsMatrix.length; i++) {
+    pathPoints.add(pointsMatrix[i][pointsMatrix.first.length - 1]);
+  }
+
+  // bottom side
+  for (int j = pointsMatrix.first.length - 1; j >= 0; j--) {
+    pathPoints.add(pointsMatrix[pointsMatrix.length - 1][j]);
+  }
+
+  // left side
+  for (int i = pointsMatrix.length - 1; i > 0; i--) {
+    pathPoints.add(pointsMatrix[i][0]);
+  }
+
+  return pathPoints;
 }
 
 double _getPointsDistance(int i, int j, (int, int) neighbour) =>

@@ -126,14 +126,18 @@ extension OffsetExtension on Offset {
 }
 
 abstract class SimulationObject {
-  List<Offset> get orderedPaintingPathPoints;
+  List<MassPoint> get orderedPaintingPathPoints;
 }
 
-class SoftBody {
+class SoftBody implements SimulationObject {
   final List<MassPoint> points;
   final List<ElasticEdge> edges;
+  final List<MassPoint> paintingPathPoints;
 
-  SoftBody(this.points, this.edges);
+  SoftBody(this.points, this.edges, this.paintingPathPoints);
+
+  @override
+  List<MassPoint> get orderedPaintingPathPoints => paintingPathPoints;
 }
 
 class MassPoint {
