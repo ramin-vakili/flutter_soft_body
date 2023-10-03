@@ -62,30 +62,29 @@ class _SimulationSceneState extends State<SimulationScene>
   }
 
   void _resetGraph() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final RenderBox? renderBox =
-          _canvasKey.currentContext?.findRenderObject() as RenderBox?;
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        final RenderBox? renderBox =
+            _canvasKey.currentContext?.findRenderObject() as RenderBox?;
 
-      if (renderBox != null) {
-        _graphCanvasSize = renderBox.size;
-        _softBody = generateSampleSoftBody(
-          _graphCanvasSize!,
-          row: 5,
-          column: 4,
-          edgeLength: 20,
-          position: const Offset(50, 50),
-        );
-        _colliders.addAll(createRandomColliders(_graphCanvasSize!));
+        if (renderBox != null) {
+          _graphCanvasSize = renderBox.size;
+          _softBody = generateSampleSoftBody(
+            _graphCanvasSize!,
+            row: 5,
+            column: 4,
+            edgeLength: 20,
+            position: const Offset(50, 50),
+          );
+          _colliders.addAll(createRandomColliders(_graphCanvasSize!));
 
-        setState(() {});
-      }
-    });
+          setState(() {});
+        }
+      },
+    );
   }
 
   void _calculateForces(Size size, Duration deltaTime) {
-    // print(_points.positionsPrintString);
-    // print('##########################');
-
     // Gravity
     for (final MassPoint point in _softBody.points) {
       point.force = Offset.zero;
@@ -93,9 +92,11 @@ class _SimulationSceneState extends State<SimulationScene>
       point.force += Offset(0, yForce);
     }
 
+    // Spring forces.
     for (final ElasticEdge edge in _softBody.edges) {
       edge.update(deltaTime, size);
     }
+
 
     _applyEulerIntegration(deltaTime);
   }
@@ -121,7 +122,6 @@ class _SimulationSceneState extends State<SimulationScene>
                 (point.velocity.dx * pushVectorNormalized.dx +
                     point.velocity.dy * pushVectorNormalized.dy));
 
-        // final Offset collisionImpulse = -dryVelocity * point.mass;
         final Offset collisionImpulse = newDryVelocity * point.mass;
         final Offset collisionForce =
             collisionImpulse / adjustedDeltaTime * 0.3;

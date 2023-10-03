@@ -193,13 +193,13 @@ class ElasticEdge implements EdgeBase {
       double vx12 = node1.velocity.dx - node2.velocity.dx;
       double vy12 = node1.velocity.dy - node2.velocity.dy;
 
-      final double stifnessForce =
+      final double stiffnessForce =
           double.parse(((distanceSquared - length) * ks).toStringAsFixed(10));
       final double dampingForce =
           (vx12 * (x1 - x2) + vy12 * (y1 - y2)) * kd / distanceSquared;
 
       // calculate force value
-      double f = stifnessForce + dampingForce;
+      double f = stiffnessForce + dampingForce;
 
       // force vector
       double fx = ((x1 - x2) / distanceSquared) * f;

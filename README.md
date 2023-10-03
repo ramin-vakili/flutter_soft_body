@@ -27,7 +27,6 @@ simulations, I decided to dive into the world of mass-spring models and bring it
 <img src="soft_body_6.gif" width="200" height="300"/>   <img src="soft_body_7.gif" width="200" height="170"/>
 
 
-
 ## Project Details
 
 This project has been an incredible learning experience, and I'm excited to share it with the
