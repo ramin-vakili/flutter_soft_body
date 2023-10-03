@@ -1,6 +1,6 @@
 # Soft Body Simulation in Flutter
 
-![Demo Gif](demo.gif)
+![Demo Gif](soft_body_5.gif)
 
 ## Overview
 
@@ -23,6 +23,9 @@ simulations, I decided to dive into the world of mass-spring models and bring it
 
 - **Collision Detection:** Implements ray casting for collision detection, allowing the soft body to
   interact realistically with its environment.
+
+(soft_body_6.gif)
+(soft_body_7.gif)
 
 ## Project Details
 
