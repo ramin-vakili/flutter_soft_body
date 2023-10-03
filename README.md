@@ -8,7 +8,7 @@ Welcome to the Soft Body Simulation project implemented in Flutter! This project
 the simulation of soft bodies using Flutter's capabilities, without relying on external physics or
 game engines.
 
-Inspired by Inspecto's fantastic video explaining the physics and formulas behind soft body
+Inspired by Gonkee's fantastic video explaining the physics and formulas behind soft body
 simulations, I decided to dive into the world of mass-spring models and bring it to life in Flutter.
 
 [Watch the Inspiring Video](https://www.youtube.com/watch?v=kyQP4t_wOGI)
