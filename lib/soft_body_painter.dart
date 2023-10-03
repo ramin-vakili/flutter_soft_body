@@ -9,7 +9,7 @@ class SoftBodyPainter extends CustomPainter {
   SoftBodyPainter({
     required this.softBody
   })  : _nodePaint = Paint()
-          ..color = Colors.blueAccent
+          ..color = Colors.indigo
           ..style = PaintingStyle.fill
           ..strokeWidth = 1,
         _edgePaint = Paint()
@@ -24,9 +24,9 @@ class SoftBodyPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    for (final EdgeBase edge in softBody.edges) {
-      canvas.drawLine(edge.node1.position, edge.node2.position, _edgePaint);
-    }
+    // for (final EdgeBase edge in softBody.edges) {
+    //   canvas.drawLine(edge.node1.position, edge.node2.position, _edgePaint);
+    // }
 
     for (final MassPoint point in softBody.points) {
       canvas.drawCircle(point.position, point.radius, _nodePaint);

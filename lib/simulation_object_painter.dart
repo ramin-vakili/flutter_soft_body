@@ -3,14 +3,18 @@ import 'package:soft_body/models.dart';
 
 class SimulationObjectPainter extends CustomPainter {
   SimulationObjectPainter(this.object)
-      : _paint = Paint()
-          ..color = Colors.blue
-          ..style = PaintingStyle.fill
-          ..strokeWidth = 2.0;
+      : _borderPaint = Paint()
+          ..color = Colors.indigo
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 4,
+        _fillPaint = Paint()
+          ..color = Colors.blueGrey
+          ..style = PaintingStyle.fill;
 
   final SimulationObject object;
 
-  final Paint _paint;
+  final Paint _borderPaint;
+  final Paint _fillPaint;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -32,7 +36,8 @@ class SimulationObjectPainter extends CustomPainter {
 
     path.lineTo(firstPoint.dx, firstPoint.dy);
 
-    canvas.drawPath(path, _paint);
+    canvas.drawPath(path, _borderPaint);
+    canvas.drawPath(path, _fillPaint);
   }
 
   @override

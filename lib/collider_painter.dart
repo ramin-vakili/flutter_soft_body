@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:soft_body/main.dart';
 import 'package:soft_body/models.dart';
 
 class ColliderPainter extends CustomPainter {
   ColliderPainter(this.colliders)
       : _paint = Paint()
-          ..color = Colors.blue
+          ..color = Colors.teal
           ..style = PaintingStyle.fill
           ..strokeWidth = 2.0;
 
