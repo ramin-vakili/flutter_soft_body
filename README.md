@@ -1,28 +1,41 @@
-TODO: Test on different screen sizes
-🚀 Exciting Project Announcement: Simulating Soft Bodies in Flutter! 🤖
+# Soft Body Simulation in Flutter
 
-Hey LinkedIn community! 👋
+![Demo Gif](demo.gif)
 
-I'm thrilled to share a project I've been working on - a soft body simulation implemented entirely in Flutter, without any external physics or game engine! 📱💡
+## Overview
 
-Inspired by Gonkee's fantastic video explaining the physics and formulas behind soft body simulations, I decided to dive into the world of mass-spring models and bring it to life in Flutter. 🌟
+Welcome to the Soft Body Simulation project implemented in Flutter! This project aims to demonstrate
+the simulation of soft bodies using Flutter's capabilities, without relying on external physics or
+game engines.
 
-🎥 You can watch the video that inspired me here: [https://www.youtube.com/watch?v=kyQP4t_wOGI]
+Inspired by Inspecto's fantastic video explaining the physics and formulas behind soft body
+simulations, I decided to dive into the world of mass-spring models and bring it to life in Flutter.
 
-📂 And here's the link to my GitHub repository where you can check out the code and experiment with the simulation yourself: [https://github.com/ramin-vakili/soft_body]
+[Watch the Inspiring Video](https://www.youtube.com/watch?v=kyQP4t_wOGI)
 
-Here are some key features of the project:
+## Key Features
 
-✨ Accumulation of Forces: I've incorporated gravity, spring forces (following Hooke's Law), and more to create a dynamic and realistic soft body.
+- **Accumulation of Forces:** Incorporates gravity, spring forces (following Hooke's Law), and more
+  to create a dynamic and realistic soft body.
 
-🚀 Velocity and Position Updates: Using Euler's integration the simulation continuously updates the velocity and position of each mass point to ensure smooth and lifelike movement.
+- **Velocity and Position Updates:** Utilizes Euler's integration to continuously update the
+  velocity and position of each mass point for smooth and lifelike movement.
 
-🌐 Collision Detection: I've implemented ray casting for collision detection, allowing the soft body to interact with its environment realistically.
+- **Collision Detection:** Implements ray casting for collision detection, allowing the soft body to
+  interact realistically with its environment.
 
-👨‍💻 This project has been an incredible learning experience, and I'm excited to share it with the Flutter and developer communities. I hope it serves as a source of inspiration and education for fellow tech enthusiasts and developers.
+## Project Details
 
-Feel free to explore the code, provide feedback, or simply enjoy the mesmerizing motion of soft bodies! 🌌
+This project has been an incredible learning experience, and I'm excited to share it with the
+Flutter and developer communities. I hope it serves as a source of inspiration and education for
+fellow tech enthusiasts and developers.
 
-Thank you for your support, and don't forget to like, share, and subscribe to stay updated on more exciting projects in the future. 🚀👨‍💻
+Feel free to explore the code, provide feedback, or simply enjoy the mesmerizing motion of soft
+bodies!
 
-#Flutter #SoftBodySimulation #PhysicsInFlutter #OpenSource #GitHub #Development #TechInnovation
+## Support and Contact
+
+For questions or inquiries, please feel free to reach out to me.
+
+Thank you for your support! Don't forget to star this repository and share it with others who might
+find it interesting.
