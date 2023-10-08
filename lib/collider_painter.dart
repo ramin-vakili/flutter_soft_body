@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soft_body/extensions.dart';
 import 'package:soft_body/models.dart';
 
 class ColliderPainter extends CustomPainter {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soft_body/extensions.dart';
 import 'package:soft_body/simulation_object_painter.dart';
 import 'package:soft_body/soft_body_painter.dart';
 
@@ -23,7 +24,7 @@ class _SimulationSceneState extends State<SimulationScene>
   MassPoint? _selectedNode;
 
   late SoftBody _softBody;
-  final List<RectangleCollider> _colliders = [];
+  final List<RectangleCollider> _colliders = <RectangleCollider>[];
 
   @override
   void initState() {
@@ -54,7 +55,7 @@ class _SimulationSceneState extends State<SimulationScene>
         _latestElapsedTime = elapsed;
 
         if (deltaTime != null) {
-          _calculateForces(_graphCanvasSize!, deltaTime);
+          _calculateForces(deltaTime);
         }
       }
       setState(() {});
@@ -84,21 +85,24 @@ class _SimulationSceneState extends State<SimulationScene>
     );
   }
 
-  void _calculateForces(Size size, Duration deltaTime) {
-    // Gravity
+  void _calculateForces(Duration deltaTime) {
+    _applyGravityForce();
+    _applySpringForces();
+    _applyEulerIntegration(deltaTime);
+  }
+
+  void _applyGravityForce() {
     for (final MassPoint point in _softBody.points) {
       point.force = Offset.zero;
       final double yForce = gy * point.mass;
       point.force += Offset(0, yForce);
     }
+  }
 
-    // Spring forces.
-    for (final ElasticEdge edge in _softBody.edges) {
-      edge.update(deltaTime, size);
+  void _applySpringForces() {
+    for (final Spring spring in _softBody.springs) {
+      spring.update();
     }
-
-
-    _applyEulerIntegration(deltaTime);
   }
 
   void _applyEulerIntegration(Duration deltaTime) {
@@ -142,7 +146,6 @@ class _SimulationSceneState extends State<SimulationScene>
 
   // TODO(Ramin): check if need handle when a pont collides two colliders at the same time.
   /// Gets the collision point
-
   Offset? _getCollisionPoint(MassPoint point, Offset dryVelocity) {
     for (final RectangleCollider collider in _colliders) {
       final Offset? collisionPoint = collider.getCollidingPoint(
@@ -195,7 +198,7 @@ class _SimulationSceneState extends State<SimulationScene>
                   details.localPosition.dy,
                 );
 
-                _selectedNode!.setPosition = Offset.lerp(
+                _selectedNode!.position = Offset.lerp(
                   _selectedNode!.position,
                   mousePos,
                   0.2,

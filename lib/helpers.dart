@@ -10,9 +10,9 @@ List<EdgeBase> generateRandomEdgesForNodes(List<MassPoint> nodes) {
   for (int i = 0; i < 20; i++) {
     final (int, int) randomPairs = getRandomEdgePairs(nodes);
 
-    edges.add(ElasticEdge(
-      node1: nodes[randomPairs.$1],
-      node2: nodes[randomPairs.$2],
+    edges.add(Spring(
+      point1: nodes[randomPairs.$1],
+      point2: nodes[randomPairs.$2],
     ));
   }
 
@@ -113,9 +113,9 @@ List<RectangleCollider> createRandomColliders(Size size) {
   ];
 }
 
-(List<MassPoint>, List<ElasticEdge>) createRandomGraph(Size canvasSize) {
+(List<MassPoint>, List<Spring>) createRandomGraph(Size canvasSize) {
   final List<MassPoint> points = <MassPoint>[];
-  final List<ElasticEdge> springs = <ElasticEdge>[];
+  final List<Spring> springs = <Spring>[];
 
   final goo1 = MassPoint(initialPosition: const Offset(24, 5));
   final goo2 = MassPoint(initialPosition: const Offset(80, 0));
@@ -140,36 +140,36 @@ List<RectangleCollider> createRandomColliders(Size size) {
   ]);
 
   springs.addAll([
-    ElasticEdge(node1: goo1, node2: goo2),
-    ElasticEdge(node1: goo1, node2: goo4),
-    ElasticEdge(node1: goo1, node2: goo5, length: 42),
+    Spring(point1: goo1, point2: goo2),
+    Spring(point1: goo1, point2: goo4),
+    Spring(point1: goo1, point2: goo5, restLength: 42),
     //
-    ElasticEdge(node1: goo2, node2: goo3),
-    ElasticEdge(node1: goo2, node2: goo4, length: 42),
-    ElasticEdge(node1: goo2, node2: goo5),
-    ElasticEdge(node1: goo2, node2: goo6, length: 42),
+    Spring(point1: goo2, point2: goo3),
+    Spring(point1: goo2, point2: goo4, restLength: 42),
+    Spring(point1: goo2, point2: goo5),
+    Spring(point1: goo2, point2: goo6, restLength: 42),
     //
-    ElasticEdge(node1: goo3, node2: goo5, length: 42),
-    ElasticEdge(node1: goo3, node2: goo6),
+    Spring(point1: goo3, point2: goo5, restLength: 42),
+    Spring(point1: goo3, point2: goo6),
     //
-    ElasticEdge(node1: goo4, node2: goo5),
-    ElasticEdge(node1: goo4, node2: goo7),
-    ElasticEdge(node1: goo4, node2: goo8, length: 42),
+    Spring(point1: goo4, point2: goo5),
+    Spring(point1: goo4, point2: goo7),
+    Spring(point1: goo4, point2: goo8, restLength: 42),
     //
-    ElasticEdge(node1: goo5, node2: goo7, length: 42),
-    ElasticEdge(node1: goo5, node2: goo8),
+    Spring(point1: goo5, point2: goo7, restLength: 42),
+    Spring(point1: goo5, point2: goo8),
     //
-    ElasticEdge(node1: goo7, node2: goo8),
+    Spring(point1: goo7, point2: goo8),
     //
-    ElasticEdge(node1: goo5, node2: goo6),
-    ElasticEdge(node1: goo5, node2: goo7),
-    ElasticEdge(node1: goo5, node2: goo8),
-    ElasticEdge(node1: goo5, node2: goo9, length: 42),
+    Spring(point1: goo5, point2: goo6),
+    Spring(point1: goo5, point2: goo7),
+    Spring(point1: goo5, point2: goo8),
+    Spring(point1: goo5, point2: goo9, restLength: 42),
     //
-    ElasticEdge(node1: goo6, node2: goo8, length: 42),
-    ElasticEdge(node1: goo6, node2: goo9),
+    Spring(point1: goo6, point2: goo8, restLength: 42),
+    Spring(point1: goo6, point2: goo9),
     //
-    ElasticEdge(node1: goo8, node2: goo9),
+    Spring(point1: goo8, point2: goo9),
   ]);
 
   return (points, springs);
@@ -183,7 +183,7 @@ SoftBody generateSampleSoftBody(
   double edgeLength = 30,
 }) {
   final List<MassPoint> points = <MassPoint>[];
-  final List<ElasticEdge> springs = <ElasticEdge>[];
+  final List<Spring> springs = <Spring>[];
 
   Map<(int, int), (int, int)> pointPairs = {};
   final double diagonalLength = sqrt(2 * pow(edgeLength, 2));
@@ -212,10 +212,10 @@ SoftBody generateSampleSoftBody(
           // Edge doesn't exist.
           pointPairs[(i, j)] = neighbour;
           springs.add(
-            ElasticEdge(
-              node1: pointsMatrix[i][j],
-              node2: pointsMatrix[neighbour.$1][neighbour.$2],
-              length: _getPointsDistance(i, j, neighbour) > 1
+            Spring(
+              point1: pointsMatrix[i][j],
+              point2: pointsMatrix[neighbour.$1][neighbour.$2],
+              restLength: _getPointsDistance(i, j, neighbour) > 1
                   ? diagonalLength
                   : edgeLength,
             ),

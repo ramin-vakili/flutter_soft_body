@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soft_body/extensions.dart';
 
 class ColliderEdge {
   ColliderEdge(this.point1, this.point2);
@@ -117,13 +118,6 @@ class RectangleCollider {
   }
 }
 
-extension OffsetExtension on Offset {
-  double get x => dx;
-
-  double get y => dy;
-
-  Offset get normalized => this / distance;
-}
 
 abstract class SimulationObject {
   List<MassPoint> get orderedPaintingPathPoints;
@@ -131,15 +125,17 @@ abstract class SimulationObject {
 
 class SoftBody implements SimulationObject {
   final List<MassPoint> points;
-  final List<ElasticEdge> edges;
+  final List<Spring> springs;
   final List<MassPoint> paintingPathPoints;
 
-  SoftBody(this.points, this.edges, this.paintingPathPoints);
+  SoftBody(this.points, this.springs, this.paintingPathPoints);
 
   @override
   List<MassPoint> get orderedPaintingPathPoints => paintingPathPoints;
 }
 
+/// A mass point in the simulation which represents an object with mass,
+/// velocity, force, etc.
 class MassPoint {
   Offset position;
   Offset velocity;
@@ -152,49 +148,47 @@ class MassPoint {
       : position = initialPosition ?? Offset.zero,
         velocity = Offset.zero,
         force = Offset.zero;
-
-  set setPosition(Offset newPosition) {
-    position = newPosition;
-  }
 }
 
+/// An edge which connects two [MassPoint]s.
 abstract class EdgeBase {
-  MassPoint get node1;
+  MassPoint get point1;
 
-  MassPoint get node2;
+  MassPoint get point2;
 }
 
 /// A connection between two nodes/particle, joint, which has elastic behaviour.
-class ElasticEdge implements EdgeBase {
-  double ks = 510;
-  double kd = 2100;
+class Spring implements EdgeBase {
+  static const double ks = 510;
+  static const double kd = 2100;
 
   @override
-  final MassPoint node1;
+  final MassPoint point1;
 
   @override
-  final MassPoint node2;
+  final MassPoint point2;
 
-  final double length;
+  final double restLength;
 
-  ElasticEdge({required this.node1, required this.node2, this.length = 30});
+  Spring({required this.point1, required this.point2, this.restLength = 30});
 
-  void update(Duration elapsedTime, Size size) {
-    double x1 = node1.position.dx;
-    double x2 = node2.position.dx;
-    double y1 = node1.position.dy;
-    double y2 = node2.position.dy;
+  /// Applies the spring forces to the [point1] and [point2].
+  void update() {
+    double x1 = point1.position.dx;
+    double x2 = point2.position.dx;
+    double y1 = point1.position.dy;
+    double y2 = point2.position.dy;
 
     // calculate sqr(distance)
-    double distanceSquared = (node1.position - node2.position).distance;
+    double distanceSquared = (point1.position - point2.position).distance;
 
     if (distanceSquared > 0) {
       // get velocities of start & end points
-      double vx12 = node1.velocity.dx - node2.velocity.dx;
-      double vy12 = node1.velocity.dy - node2.velocity.dy;
+      double vx12 = point1.velocity.dx - point2.velocity.dx;
+      double vy12 = point1.velocity.dy - point2.velocity.dy;
 
       final double stiffnessForce =
-          double.parse(((distanceSquared - length) * ks).toStringAsFixed(10));
+          double.parse(((distanceSquared - restLength) * ks).toStringAsFixed(10));
       final double dampingForce =
           (vx12 * (x1 - x2) + vy12 * (y1 - y2)) * kd / distanceSquared;
 
@@ -207,32 +201,8 @@ class ElasticEdge implements EdgeBase {
 
       Offset newForce = Offset(fx, fy);
 
-      node1.force -= newForce;
-      node2.force += newForce;
+      point1.force -= newForce;
+      point2.force += newForce;
     }
-  }
-}
-
-extension MassPointListExtension on List<MassPoint> {
-  String get positionsPrintString {
-    StringBuffer stringBuffer = StringBuffer();
-
-    for (final point in this) {
-      stringBuffer.write(
-          '(${point.position.dx.toStringAsFixed(0)}, ${point.position.dy.toStringAsFixed(0)}), ');
-    }
-
-    return stringBuffer.toString();
-  }
-
-  String get forcePrintString {
-    StringBuffer stringBuffer = StringBuffer();
-
-    for (final point in this) {
-      stringBuffer.write(
-          '(${point.force.dx.toStringAsFixed(0)}, ${point.force.dy.toStringAsFixed(0)}), ');
-    }
-
-    return stringBuffer.toString();
   }
 }
