@@ -259,6 +259,8 @@ double _getPointsDistance(int i, int j, (int, int) neighbour) =>
             Offset(neighbour.$1.toDouble(), neighbour.$2.toDouble()))
         .distance;
 
+/// Returns the neighbours in ([a], [b]) position in a 2D matrix with number of
+/// [rowNumber] rows and [columnNumber] columns.
 List<(int, int)> getMatrixCellNeighbours(
   int a,
   int b,

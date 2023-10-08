@@ -11,6 +11,7 @@ extension OffsetExtension on Offset {
 }
 
 extension MassPointListExtension on List<MassPoint> {
+  /// Creates a string to print, for debugging purposes.
   String get positionsPrintString {
     StringBuffer stringBuffer = StringBuffer();
 
@@ -22,6 +23,7 @@ extension MassPointListExtension on List<MassPoint> {
     return stringBuffer.toString();
   }
 
+  /// Creates a string to print, for debugging purposes.
   String get forcePrintString {
     StringBuffer stringBuffer = StringBuffer();
 
